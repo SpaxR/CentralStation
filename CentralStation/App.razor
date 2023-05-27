@@ -1,4 +1,4 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿<Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="Libraries">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
         <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
@@ -10,3 +10,14 @@
         </LayoutView>
     </NotFound>
 </Router>
+
+@code
+{
+    private IEnumerable<System.Reflection.Assembly> Libraries
+    {
+        get;
+    } = new[]
+    {
+        typeof(CentralStation.Web.Shared._Imports).Assembly
+    };
+}

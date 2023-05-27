@@ -1,0 +1,16 @@
+﻿@page "/Test"
+<MudText Typo="Typo.h5">Test</MudText>
+
+<MudSimpleTable Dense="true">
+    @foreach (var variant in Enum.GetValues<Variant>())
+    {
+        <tr>
+            @foreach (var color in Enum.GetValues<Color>())
+            {
+                <td>
+                    <MudButton Variant="variant" Color="color">@color</MudButton>
+                </td>
+            }
+        </tr>
+    }
+</MudSimpleTable>
