@@ -17,6 +17,7 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="MudBlazor" Version="6.3.0" />
+        <ProjectReference Include="..\Networking.Web\Networking.Web.csproj" />
     </ItemGroup>
 
     <ItemGroup>
