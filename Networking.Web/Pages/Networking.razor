@@ -1,6 +1,67 @@
 ﻿@page "/Networking"
+@using global::Networking.Application
+@using global::Networking.Application.Models
+@inject INetworkDeviceService DeviceService
+
 <MudText Typo="Typo.h5">Network (192.168.178.0 / 24)</MudText>
+
+<MudTable Items="Devices">
+
+    <HeaderContent>
+        <MudTh>DeviceName</MudTh>
+        <MudTh>HostName</MudTh>
+        <MudTh>Address</MudTh>
+        <MudTh>Ping-Result</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd>@context.UserDefinedName</MudTd>
+        <MudTd>@context.HostName</MudTd>
+        <MudTd>@context.Address</MudTd>
+        <MudTd>
+            @if (PingResults.TryGetValue(context.Id, out var result))
+            {
+                <MudIcon Icon="@(result ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)"/>
+            }
+            else
+            {
+                <MudIcon Icon="@Icons.Material.Filled.AccessTime"></MudIcon>
+            }
+        </MudTd>
+        <MudTd>Link</MudTd>
+    </RowTemplate>
+
+</MudTable>
+
 
 @code {
 
+    private IEnumerable<NetworkDeviceModel> Devices
+    {
+        get;
+        set;
+    } = ArraySegment<NetworkDeviceModel>.Empty;
+
+    private Dictionary<Guid, bool> PingResults
+    {
+        get;
+    } = new();
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        Devices = DeviceService.GetAll();
+        PingAllDevicesAsync();
+    }
+
+    private Task PingAllDevicesAsync()
+    {
+        return Task.WhenAll(Devices.Select(async d =>
+        {
+            var result = d.Address != null && await DeviceService.PingDeviceAsync(d.Id);
+            PingResults.Add(d.Id, result);
+            StateHasChanged();
+        }));
+    }
 }

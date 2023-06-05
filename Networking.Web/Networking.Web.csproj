@@ -4,6 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
 
@@ -22,6 +23,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CentralStation.Web.Shared\CentralStation.Web.Shared.csproj" />
+      <ProjectReference Include="..\Networking.Application\Networking.Application.csproj" />
     </ItemGroup>
 
 </Project>

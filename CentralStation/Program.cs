@@ -1,11 +1,15 @@
 using CentralStation.Infrastructure;
 using CentralStation.Startup;
 using MudBlazor.Services;
+using Networking.Application;
+using Networking.Domain;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddSingleton<INetworkDeviceService, NetworkDeviceService>();
+builder.Services.AddSingleton<IReachabilityManager, ReachabilityManager>();
 builder.Services.AddMudServices();
 
 builder.Services
