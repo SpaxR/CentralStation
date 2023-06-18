@@ -1,0 +1,50 @@
+﻿<Project>
+    <PropertyGroup Label="Static Values">
+        <!-- Custom Variables -->
+        <ProjectPrefix>CentralStation</ProjectPrefix>
+
+        <CleanProjectName>$(MSBuildProjectName
+            .Replace("$(ProjectPrefix)", "")
+            .Replace(".Shared", "")
+            .Replace(".Core", "")
+            .Replace(".Domain", "")
+            .Replace(".Application", "")
+            .Replace(".Infrastructure", "")
+        )</CleanProjectName>
+
+        <CleanAssemblyName>$(MSBuildProjectName.Replace("$(ProjectPrefix).", ""))</CleanAssemblyName>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Project-Configuration">
+        <RootNamespace>$(ProjectPrefix).$(CleanProjectName)</RootNamespace>
+        <RootNamespace Condition="'$(CleanProjectName)'==''">$(ProjectPrefix)</RootNamespace>
+
+        <AssemblyName Condition="'$(CleanAssemblyName)'!='$(ProjectPrefix)'">$(ProjectPrefix).$(CleanAssemblyName)</AssemblyName>
+    </PropertyGroup>
+
+    <PropertyGroup Label="C#-Language-Settings">
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>default</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup Label="Test-Project-Configuration" Condition="$(ProjectName.EndsWith('.Tests'))">
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
+        <PackageReference Include="xunit" Version="2.4.2"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="coverlet.collector" Version="3.2.0">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup Label="Internals visible to *.Tests">
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>$(AssemblyName).Tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+</Project>
