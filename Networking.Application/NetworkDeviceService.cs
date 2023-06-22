@@ -1,8 +1,7 @@
 ﻿using System.Net;
-using Networking.Application.Models;
-using Networking.Domain;
+using CentralStation.Networking.Models;
 
-namespace Networking.Application;
+namespace CentralStation.Networking;
 
 public interface INetworkDeviceService
 {

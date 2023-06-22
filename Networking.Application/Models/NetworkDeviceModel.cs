@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Networking.Application.Models;
+namespace CentralStation.Networking.Models;
 
 public class NetworkDeviceModel
 {

@@ -1,4 +1,4 @@
-﻿namespace Networking.Domain;
+﻿namespace CentralStation.Networking;
 
 public interface IReachabilityManager
 {

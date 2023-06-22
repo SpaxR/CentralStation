@@ -1,4 +1,4 @@
-﻿namespace Networking.Domain;
+﻿namespace CentralStation.Networking;
 
 // TODO Implement automatic implementation of Dependencies
 public class ReachabilityManager : IReachabilityManager

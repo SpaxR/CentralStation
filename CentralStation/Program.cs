@@ -1,8 +1,7 @@
 using CentralStation.Infrastructure;
+using CentralStation.Networking;
 using CentralStation.Startup;
 using MudBlazor.Services;
-using Networking.Application;
-using Networking.Domain;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -25,8 +24,6 @@ if (!app.Environment.IsDevelopment())
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
-
-app.Services.InitializeInfrastructure();
 
 app.UseHttpsRedirection();
 
