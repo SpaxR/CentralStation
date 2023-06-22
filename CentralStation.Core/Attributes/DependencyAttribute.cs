@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace CentralStation.Attributes;
+﻿namespace CentralStation.Attributes;
 
 public class DependencyAttribute : Attribute
 {
@@ -22,4 +20,11 @@ public class TransientDependency : DependencyAttribute
 {
 	/// <inheritdoc />
 	public TransientDependency() : base(ServiceLifetime.Transient) {}
+}
+
+public enum ServiceLifetime
+{
+	Transient,
+	Scoped,
+	Singleton,
 }

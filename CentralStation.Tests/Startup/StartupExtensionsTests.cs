@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using CentralStation.Attributes;
 using Microsoft.Extensions.DependencyInjection;
+using ServiceLifetime = CentralStation.Attributes.ServiceLifetime;
 
 namespace CentralStation.Startup;
 

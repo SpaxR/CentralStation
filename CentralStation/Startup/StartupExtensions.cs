@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using CentralStation.Attributes;
+using MsServiceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime;
+using ServiceLifetime = CentralStation.Attributes.ServiceLifetime;
 
 namespace CentralStation.Startup;
 
@@ -33,15 +35,24 @@ public static class StartupExtensions
 		{
 			Console.WriteLine($"Registering Service: {implementationType} ({attribute.Lifetime})");
 
-			services.Add(new ServiceDescriptor(implementationType, implementationType, attribute.Lifetime));
+			services.Add(new ServiceDescriptor(implementationType, implementationType, attribute.Lifetime.AsMsServiceLifetime()));
 
 			foreach (var interfaceType in implementationType.GetInterfaces())
 			{
 				Console.WriteLine("\tas " + interfaceType);
-				services.Add(new ServiceDescriptor(interfaceType, implementationType, attribute.Lifetime));
+				services.Add(new ServiceDescriptor(interfaceType, implementationType, attribute.Lifetime.AsMsServiceLifetime()));
 			}
 		}
 	}
 
-
+	private static MsServiceLifetime AsMsServiceLifetime(this ServiceLifetime lifetime)
+	{
+		return lifetime switch
+		{
+			ServiceLifetime.Singleton => MsServiceLifetime.Singleton,
+			ServiceLifetime.Scoped => MsServiceLifetime.Scoped,
+			ServiceLifetime.Transient => MsServiceLifetime.Transient,
+			_ => throw new ArgumentOutOfRangeException(nameof(lifetime), lifetime, null)
+		};
+	}
 }
