@@ -7,7 +7,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 
-builder.Services.AddServicesByConvention();
+builder.Services.AddServicesByConvention(StartupExtensions.Assemblies);
 
 var app = builder.Build();
 
