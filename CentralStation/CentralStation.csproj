@@ -12,7 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CentralStation.Core\CentralStation.Core.csproj" />
       <ProjectReference Include="..\CentralStation.Web.Shared\CentralStation.Web.Shared.csproj" />
     </ItemGroup>
 

@@ -19,7 +19,6 @@
     <PropertyGroup Label="Project-Configuration">
         <RootNamespace>$(ProjectPrefix).$(CleanProjectName)</RootNamespace>
         <RootNamespace Condition="'$(CleanProjectName)'==''">$(ProjectPrefix)</RootNamespace>
-
         <AssemblyName Condition="'$(CleanAssemblyName)'!='$(ProjectPrefix)'">$(ProjectPrefix).$(CleanAssemblyName)</AssemblyName>
     </PropertyGroup>
 
@@ -32,6 +31,10 @@
     <PropertyGroup Label="Test-Project-Configuration" Condition="$(ProjectName.EndsWith('.Tests'))">
         <IsPackable>false</IsPackable>
     </PropertyGroup>
+
+    <ItemGroup Label="Default-Dependencies" Condition="!$(MSBuildProjectName.EndsWith('.Core'))">
+        <ProjectReference Include="..\CentralStation.Core\CentralStation.Core.csproj" />
+    </ItemGroup>
 
     <ItemGroup Label="Test-Project-Dependencies" Condition="$(ProjectName.EndsWith('.Tests'))">
         <ProjectReference Include="..\CentralStation.Tests.Shared\CentralStation.Tests.Shared.csproj" />
