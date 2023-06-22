@@ -10,6 +10,7 @@
             .Replace(".Domain", "")
             .Replace(".Application", "")
             .Replace(".Infrastructure", "")
+            .Replace(".Tests", "")
         )</CleanProjectName>
 
         <CleanAssemblyName>$(MSBuildProjectName.Replace("$(ProjectPrefix).", ""))</CleanAssemblyName>
@@ -28,7 +29,13 @@
         <LangVersion>default</LangVersion>
     </PropertyGroup>
 
-    <ItemGroup Label="Test-Project-Configuration" Condition="$(ProjectName.EndsWith('.Tests'))">
+    <PropertyGroup Label="Test-Project-Configuration" Condition="$(ProjectName.EndsWith('.Tests'))">
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup Label="Test-Project-Dependencies" Condition="$(ProjectName.EndsWith('.Tests'))">
+        <ProjectReference Include="..\CentralStation.Tests.Shared\CentralStation.Tests.Shared.csproj" />
+
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
         <PackageReference Include="xunit" Version="2.4.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
