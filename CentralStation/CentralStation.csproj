@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CentralStation.Web.Shared\CentralStation.Web.Shared.csproj" />
+        <PackageReference Include="MudBlazor" Version="6.3.0" />
     </ItemGroup>
 
 </Project>
