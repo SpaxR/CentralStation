@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CentralStation.Core\CentralStation.Core.csproj" />
       <ProjectReference Include="..\Networking.Domain\Networking.Domain.csproj" />
     </ItemGroup>
 

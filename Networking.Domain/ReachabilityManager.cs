@@ -1,6 +1,8 @@
-﻿namespace CentralStation.Networking;
+﻿using CentralStation.Attributes;
 
-// TODO Implement automatic implementation of Dependencies
+namespace CentralStation.Networking;
+
+[SingletonDependency]
 public class ReachabilityManager : IReachabilityManager
 {
 	/// <inheritdoc />

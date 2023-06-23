@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using CentralStation.Attributes;
 using CentralStation.Networking.Models;
 
 namespace CentralStation.Networking;
@@ -8,7 +9,8 @@ public interface INetworkDeviceService
 	IEnumerable<NetworkDeviceModel> GetAll();
 	Task<bool> PingDeviceAsync(Guid id);
 }
-// TODO Implement automatic implementation of Dependencies
+
+[SingletonDependency]
 public class NetworkDeviceService : INetworkDeviceService
 {
 	private readonly IReachabilityManager _reachability;
