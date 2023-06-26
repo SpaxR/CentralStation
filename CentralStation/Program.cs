@@ -1,6 +1,7 @@
 using CentralStation.Infrastructure;
 using CentralStation.Networking;
 using CentralStation.Startup;
+using CentralStation.Networking.Web;
 using MudBlazor.Services;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,8 @@ builder.Services.AddMudServices();
 
 builder.Services
 	.AddServicesByConvention(StartupExtensions.Assemblies)
-	.AddInfrastructure(builder.Configuration);
+	.AddInfrastructure(builder.Configuration)
+	.AddNetworking();
 
 var app = builder.Build();
 

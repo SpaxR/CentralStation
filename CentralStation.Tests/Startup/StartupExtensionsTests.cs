@@ -12,7 +12,7 @@ public class StartupExtensionsTests : UnitTestBase
 	public class Assemblies : StartupExtensionsTests
 	{
 		[Fact]
-		public void Assemblies_contains_all_dll_files_in_root_folder()
+		public void Assemblies_contains_all_dll_files_in_root_folder_excluding_tests()
 		{
 			var expectation = Directory.EnumerateFiles(
 					Directory.GetCurrentDirectory(),

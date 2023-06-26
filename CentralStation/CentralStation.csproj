@@ -6,22 +6,22 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="MudBlazor" Version="6.3.0" />
-        <ProjectReference Include="..\Networking.Web\Networking.Web.csproj" />
+        <PackageReference Include="MudBlazor" Version="6.4.1"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CentralStation.EFCore\CentralStation.EFCore.csproj" />
+        <ProjectReference Include="..\CentralStation.EFCore\CentralStation.EFCore.csproj"/>
+        <ProjectReference Include="..\Networking.Web\Networking.Web.csproj"/>
     </ItemGroup>
 
 </Project>
