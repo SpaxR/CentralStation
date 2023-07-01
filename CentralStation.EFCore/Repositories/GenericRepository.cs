@@ -19,11 +19,11 @@ public class GenericRepository<TEntity, TKey> : IRepository<TEntity, TKey>
 
 	/// <inheritdoc />
 	public void InsertOrUpdate(TEntity entity)
-		=> _context.Update(entity);
+		=> _context.Add(entity);
 
 	/// <inheritdoc />
-	public void Delete(TKey id) =>
-		_context.Remove((new { Id = id } as TEntity)!);
+	public void Delete(TKey id)
+		=> _context.Remove(Get(id));
 
 	/// <inheritdoc />
 	public void Delete(TEntity entity)
@@ -32,5 +32,4 @@ public class GenericRepository<TEntity, TKey> : IRepository<TEntity, TKey>
 	/// <inheritdoc />
 	public void SaveChanges()
 		=> _context.SaveChanges();
-
 }
