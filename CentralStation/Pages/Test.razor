@@ -1,16 +1,99 @@
 ﻿@page "/Test"
-<MudText Typo="Typo.h5">Test</MudText>
+@using CentralStation.Infrastructure
 
-<MudSimpleTable Dense="true">
-    @foreach (var variant in Enum.GetValues<Variant>())
-    {
-        <tr>
-            @foreach (var color in Enum.GetValues<Color>())
+<MudExpansionPanels>
+    <MudExpansionPanel Text="Buttons">
+
+        <MudSimpleTable Dense="true">
+            @foreach (var variant in Enum.GetValues<Variant>())
             {
-                <td>
-                    <MudButton Variant="variant" Color="color">@color</MudButton>
-                </td>
+                <tr>
+                    @foreach (var color in Enum.GetValues<Color>())
+                    {
+                        <td>
+                            <MudButton Variant="variant" Color="color">@color</MudButton>
+                        </td>
+                    }
+                </tr>
             }
-        </tr>
+        </MudSimpleTable>
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="Test-Entities">
+        Count:@Entities.Length
+        <MudList Dense="true">
+            @foreach (var entity in Entities)
+            {
+                <MudListItem>
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="() => DeleteEntity(entity.Id)"></MudIconButton>
+                    @entity.Id
+                    <MudInput T="string" TextChanged="value => OnTextChanged(entity, value)" Placeholder="Arbitrary String"></MudInput>
+                </MudListItem>
+            }
+        </MudList>
+        <MudButton OnClick="AddEntity">Add Entity</MudButton>
+    </MudExpansionPanel>
+</MudExpansionPanels>
+
+@code{
+
+    private TestEntity[] Entities
+    {
+        get;
+        set;
+    } = Array.Empty<TestEntity>();
+
+    [Inject]
+    public IRepository<TestEntity, Guid> EntityRepository
+    {
+        get;
+        set;
+    } = null!;
+
+    [Inject]
+    ISnackbar Snackbar
+    {
+        get;
+        set;
+    } = null!;
+
+    /// <inheritdoc />
+    protected override void OnInitialized() => ReloadEntities();
+
+    private void ReloadEntities()
+    {
+        Entities = EntityRepository.GetAll().ToArray();
+        StateHasChanged();
     }
-</MudSimpleTable>
+
+    private void AddEntity()
+    {
+        EntityRepository.InsertOrUpdate(new TestEntity()
+        {
+            Id = Guid.NewGuid()
+        });
+        EntityRepository.SaveChanges();
+        ReloadEntities();
+    }
+
+    private void DeleteEntity(Guid id)
+    {
+        EntityRepository.Delete(id);
+        EntityRepository.SaveChanges();
+        ReloadEntities();
+    }
+
+    private void OnTextChanged(TestEntity entity, string text)
+    {
+        entity.ArbitraryString = text;
+        EntityRepository.SaveChanges();
+        ReloadEntities();
+        Snackbar.Add("Saved", Severity.Success, options =>
+        {
+            options.DuplicatesBehavior = SnackbarDuplicatesBehavior.Allow;
+            options.ShowTransitionDuration = 100;
+            options.VisibleStateDuration = 1000;
+            options.HideTransitionDuration = 300;
+        });
+    }
+
+}
