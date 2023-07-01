@@ -40,7 +40,7 @@ public static class InfrastructureStartupExtensions
 		var dbContext = scope.ServiceProvider.GetRequiredService<CentralStationDBContext>();
 		logger.LogInformation("Using Database {DbType}", dbContext.Database.ProviderName);
 
-		// TODO Run Migrations / Ensure Created
+		dbContext.Database.Migrate();
 	}
 
 }

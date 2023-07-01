@@ -15,4 +15,11 @@ public class CentralStationDBContext : DbContext
 	{
 	}
 
+	/// <inheritdoc />
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		modelBuilder.Entity<TestEntity>()
+			.ToTable("TestEntities", "central_station");
+	}
+
 }

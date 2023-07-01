@@ -26,7 +26,7 @@
                 <MudListItem>
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="() => DeleteEntity(entity.Id)"></MudIconButton>
                     @entity.Id
-                    <MudInput T="string" TextChanged="value => OnTextChanged(entity, value)" Placeholder="Arbitrary String"></MudInput>
+                    <MudInput @bind-Value="entity.ArbitraryString" TextChanged="value => OnTextChanged(entity, value)" Placeholder="Arbitrary String"></MudInput>
                 </MudListItem>
             }
         </MudList>
@@ -67,7 +67,7 @@
 
     private void AddEntity()
     {
-        EntityRepository.InsertOrUpdate(new TestEntity()
+        EntityRepository.InsertOrUpdate(new TestEntity
         {
             Id = Guid.NewGuid()
         });
@@ -84,6 +84,8 @@
 
     private void OnTextChanged(TestEntity entity, string text)
     {
+        if (entity.ArbitraryString == text) return;
+
         entity.ArbitraryString = text;
         EntityRepository.SaveChanges();
         ReloadEntities();
