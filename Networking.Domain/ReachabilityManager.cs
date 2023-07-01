@@ -1,23 +1,33 @@
-﻿using CentralStation.Attributes;
+﻿using System.Net;
+using System.Net.NetworkInformation;
+using CentralStation.Attributes;
+using CentralStation.Networking.Infrastructure;
 
 namespace CentralStation.Networking;
 
 [SingletonDependency]
 public class ReachabilityManager : IReachabilityManager
 {
+	private readonly IRepository<NetworkDevice, Guid> _devices;
+	public ReachabilityManager(IRepository<NetworkDevice, Guid> devices)
+	{
+		_devices = devices;
+	}
+
 	/// <inheritdoc />
 	public async Task<bool> PingDevice(NetworkDevice device)
 	{
-		// TODO Use actual Pinging
-		Console.WriteLine("Pinging " + device.Address);
-		await Task.Delay(500);
-		return new Random().Next(2) == 0;
+		using var ping = new Ping();
+
+		var result = await ping.SendPingAsync(IPAddress.Parse(device.Address));
+
+		return result.Status == IPStatus.Success;
 	}
 	/// <inheritdoc />
 	public async IAsyncEnumerable<(Guid device, bool result)> PingDevices(params Guid[] ids)
 	{
-		// TODO Implement Repositories
-		var devices = ids.Select(id => new NetworkDevice(id, "127.0.0.1"));
+		var devices = _devices.GetAll()
+			.Where(d => ids.Contains(d.Id));
 
 		foreach (var device in devices)
 		{
