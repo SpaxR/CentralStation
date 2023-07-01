@@ -15,4 +15,8 @@
         <PackageReference Include="MudBlazor" Version="6.3.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CentralStation.EFCore\CentralStation.EFCore.csproj" />
+    </ItemGroup>
+
 </Project>

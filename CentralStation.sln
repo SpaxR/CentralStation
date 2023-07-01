@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentralStation.Tests", "Cen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentralStation.Tests.Shared", "CentralStation.Tests.Shared\CentralStation.Tests.Shared.csproj", "{1643846E-BE32-425B-8DF5-DD76EF999C93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentralStation.EFCore", "CentralStation.EFCore\CentralStation.EFCore.csproj", "{64C58ECA-9E63-46DA-A5BA-1AA4794D6F94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{1643846E-BE32-425B-8DF5-DD76EF999C93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1643846E-BE32-425B-8DF5-DD76EF999C93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1643846E-BE32-425B-8DF5-DD76EF999C93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64C58ECA-9E63-46DA-A5BA-1AA4794D6F94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C58ECA-9E63-46DA-A5BA-1AA4794D6F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64C58ECA-9E63-46DA-A5BA-1AA4794D6F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64C58ECA-9E63-46DA-A5BA-1AA4794D6F94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
