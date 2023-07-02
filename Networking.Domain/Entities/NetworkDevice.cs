@@ -1,6 +1,8 @@
-﻿namespace CentralStation.Networking;
+﻿using CentralStation.Infrastructure;
 
-public class NetworkDevice
+namespace CentralStation.Networking;
+
+public class NetworkDevice : IEntity<Guid>
 {
 	public NetworkDevice(Guid id, string address)
 	{
@@ -8,7 +10,7 @@ public class NetworkDevice
 		Address = address;
 	}
 
-	public Guid    Id              { get; private set; }
+	public Guid    Id              { get; set; }
 	public string  Address         { get; set; }
 	public string? HostName        { get; set; }
 	public string? UserDefinedName { get; set; }

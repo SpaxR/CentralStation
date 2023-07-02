@@ -1,4 +1,4 @@
-﻿<Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="StartupExtensions.Assemblies">
+﻿<Router AppAssembly="typeof(App).Assembly" AdditionalAssemblies="AdditionalAssemblies">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
         <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
@@ -10,3 +10,11 @@
         </LayoutView>
     </NotFound>
 </Router>
+
+@code
+{
+    private static IEnumerable<System.Reflection.Assembly> AdditionalAssemblies => StartupExtensions.Assemblies.Except(new[]
+    {
+        typeof(App).Assembly
+    });
+}

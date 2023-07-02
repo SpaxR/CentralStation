@@ -1,11 +1,11 @@
 ﻿using System.Net;
 using System.Net.NetworkInformation;
 using CentralStation.Attributes;
-using CentralStation.Networking.Infrastructure;
+using CentralStation.Infrastructure;
 
 namespace CentralStation.Networking;
 
-[SingletonDependency]
+[TransientDependency]
 public class ReachabilityManager : IReachabilityManager
 {
 	private readonly IRepository<NetworkDevice, Guid> _devices;

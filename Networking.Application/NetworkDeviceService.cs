@@ -10,7 +10,7 @@ public interface INetworkDeviceService
 	Task<bool> PingDeviceAsync(Guid id);
 }
 
-[SingletonDependency]
+[ScopedDependency]
 public class NetworkDeviceService : INetworkDeviceService
 {
 	private readonly IReachabilityManager _reachability;

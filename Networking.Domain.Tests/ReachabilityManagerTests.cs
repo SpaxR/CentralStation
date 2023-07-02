@@ -1,4 +1,4 @@
-﻿using CentralStation.Networking.Infrastructure;
+﻿using CentralStation.Infrastructure;
 using Moq;
 
 namespace CentralStation.Networking;
@@ -63,10 +63,5 @@ public class ReachabilityManagerTests : UnitTestBase<ReachabilityManager>
 
 			Assert.Equivalent(expectations, result, true);
 		}
-
-
 	}
-
-
-
 }

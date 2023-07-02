@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using CentralStation.Networking;
 using Microsoft.EntityFrameworkCore;
 // ReSharper disable All
 
@@ -7,7 +8,8 @@ namespace CentralStation.EFCore;
 [ExcludeFromCodeCoverage]
 public class CentralStationDBContext : DbContext
 {
-	public DbSet<TestEntity> Entities => Set<TestEntity>();
+	public DbSet<TestEntity>    TestEntities   => Set<TestEntity>();
+	public DbSet<NetworkDevice> NetworkDevices => Set<NetworkDevice>();
 
 	/// <inheritdoc />
 	protected CentralStationDBContext()
@@ -21,8 +23,6 @@ public class CentralStationDBContext : DbContext
 	/// <inheritdoc />
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		modelBuilder.Entity<TestEntity>()
-			.ToTable("TestEntities", "central_station");
+		modelBuilder.HasDefaultSchema("central_station");
 	}
-
 }
