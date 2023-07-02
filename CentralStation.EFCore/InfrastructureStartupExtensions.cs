@@ -19,7 +19,7 @@ public static class InfrastructureStartupExtensions
 	{
 		var connectionString = configuration.GetConnectionString("Default");
 
-		if (connectionString == null)
+		if (string.IsNullOrWhiteSpace(connectionString))
 		{
 			services.AddDbContext<CentralStationDBContext>(options => options.UseInMemoryDatabase(nameof(CentralStation)));
 		}
@@ -40,7 +40,10 @@ public static class InfrastructureStartupExtensions
 		var dbContext = scope.ServiceProvider.GetRequiredService<CentralStationDBContext>();
 		logger.LogInformation("Using Database {DbType}", dbContext.Database.ProviderName);
 
-		dbContext.Database.Migrate();
+		if (dbContext.Database.IsRelational())
+		{
+			dbContext.Database.Migrate();
+		}
 	}
 
 }
