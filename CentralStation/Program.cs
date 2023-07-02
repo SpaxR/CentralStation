@@ -24,6 +24,8 @@ if (!app.Environment.IsDevelopment())
 	app.UseHsts();
 }
 
+app.Services.InitializeInfrastructure();
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
