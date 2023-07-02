@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
+// ReSharper disable All
 
 namespace CentralStation.EFCore;
 
+[ExcludeFromCodeCoverage]
 public class CentralStationDBContext : DbContext
 {
 	public DbSet<TestEntity> Entities => Set<TestEntity>();

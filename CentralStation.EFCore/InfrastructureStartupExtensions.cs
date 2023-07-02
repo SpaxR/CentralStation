@@ -8,16 +8,19 @@ namespace CentralStation.Infrastructure;
 
 public static class InfrastructureStartupExtensions
 {
+	public const string ConnectionStringIdentifier = "Default";
+
 	public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 	{
 		return services
-			.AddTransient(typeof(IRepository<,>), typeof(GenericRepository<,>))
-			.AddDatabase(configuration);
+				.AddTransient(typeof(IRepository<,>), typeof(GenericRepository<,>))
+				.AddDatabase(configuration)
+			;
 	}
 
 	private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
 	{
-		var connectionString = configuration.GetConnectionString("Default");
+		var connectionString = configuration.GetConnectionString(ConnectionStringIdentifier);
 
 		if (string.IsNullOrWhiteSpace(connectionString))
 		{
