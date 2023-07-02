@@ -1,5 +1,5 @@
-﻿using System.Net;
-using CentralStation.Attributes;
+﻿using CentralStation.Attributes;
+using CentralStation.Infrastructure;
 using CentralStation.Networking.Models;
 
 namespace CentralStation.Networking;
@@ -9,33 +9,32 @@ public interface INetworkDeviceService
 	IEnumerable<NetworkDeviceModel> GetAll();
 	Task<bool> PingDeviceAsync(Guid id);
 }
-
 [ScopedDependency]
 public class NetworkDeviceService : INetworkDeviceService
 {
 	private readonly IReachabilityManager _reachability;
-	public NetworkDeviceService(IReachabilityManager reachability)
+	private readonly IRepository<NetworkDevice, Guid> _devices;
+
+	public NetworkDeviceService(IReachabilityManager reachability, IRepository<NetworkDevice, Guid> devices)
 	{
 		_reachability = reachability;
+		_devices      = devices;
 	}
 
 	/// <inheritdoc />
 	public IEnumerable<NetworkDeviceModel> GetAll()
 	{
-		// TODO Implement Repositories
-		yield return new NetworkDeviceModel
+		return _devices.GetAll().Select(device => new NetworkDeviceModel()
 		{
-			Id              = Guid.Empty,
-			HostName        = "HostName",
-			UserDefinedName = "UserDefined",
-			Address         = IPAddress.Parse("192.168.178.10")
-		};
+			Id      = device.Id,
+			Address = device.Address
+		});
 	}
 
 	public Task<bool> PingDeviceAsync(Guid id)
 	{
-		// TODO Implement Repositories
-		var device = new NetworkDevice(id, "127.0.0.1");
+		var device = _devices.Get(id);
+
 		return _reachability.PingDevice(device);
 	}
 }

@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Networking.Domain", "Networ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Networking.Domain.Tests", "Networking.Domain.Tests\Networking.Domain.Tests.csproj", "{3CE87C43-C48D-4CD0-975D-A058C77B2A55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Networking.Application.Tests", "Networking.Application.Tests\Networking.Application.Tests.csproj", "{16857B3D-36B0-4C3B-A163-8E983326AD25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,5 +68,9 @@ Global
 		{3CE87C43-C48D-4CD0-975D-A058C77B2A55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CE87C43-C48D-4CD0-975D-A058C77B2A55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CE87C43-C48D-4CD0-975D-A058C77B2A55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16857B3D-36B0-4C3B-A163-8E983326AD25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16857B3D-36B0-4C3B-A163-8E983326AD25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16857B3D-36B0-4C3B-A163-8E983326AD25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16857B3D-36B0-4C3B-A163-8E983326AD25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
