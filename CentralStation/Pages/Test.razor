@@ -26,7 +26,7 @@
                 <MudListItem>
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="() => DeleteEntity(entity.Id)"></MudIconButton>
                     @entity.Id
-                    <MudInput @bind-Value="entity.ArbitraryString" TextChanged="value => OnTextChanged(entity, value)" Placeholder="Arbitrary String"></MudInput>
+                    <MudInput TextChanged="value => OnTextChanged(entity, value)" Placeholder="Arbitrary String"></MudInput>
                 </MudListItem>
             }
         </MudList>
