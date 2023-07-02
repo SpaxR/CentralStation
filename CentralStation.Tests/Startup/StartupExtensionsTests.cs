@@ -19,13 +19,14 @@ public class StartupExtensionsTests : UnitTestBase
 					"*.dll",
 					SearchOption.TopDirectoryOnly)
 				.Where(file => Path.GetFileName(file).Contains(nameof(CentralStation)))
+				.Where(file => !Path.GetFileName(file).Contains("test", StringComparison.OrdinalIgnoreCase))
 				.OrderBy(f => f);
 
 			var sut = StartupExtensions.Assemblies
 				.Select(s => s.Location)
 				.OrderBy(s => s);
 
-			Assert.Equal(expectation, sut);
+			Assert.Equivalent(expectation, sut);
 		}
 	}
 

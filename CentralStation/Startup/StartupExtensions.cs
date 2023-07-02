@@ -7,8 +7,9 @@ namespace CentralStation.Startup;
 
 public static class StartupExtensions
 {
-	public static readonly Assembly[] Assemblies = Assembly.GetExecutingAssembly()
-		.GetReferencedAssemblies()
+	public static readonly Assembly[] Assemblies = new[] { Assembly.GetExecutingAssembly().GetName() }
+		.Concat(Assembly.GetExecutingAssembly().GetReferencedAssemblies())
+		.Where(name => !(name.FullName.StartsWith("System") || name.FullName.StartsWith("Microsoft")))
 		.Select(Assembly.Load)
 		.ToArray();
 
