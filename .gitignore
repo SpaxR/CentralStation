@@ -1,0 +1,12 @@
+# Build-Files
+[Bb]in/
+[Oo]bj/
+node_modules/
+
+# Editor-Files
+.idea/
+.vs/
+.vscode/
+
+# Project-Files
+*.local.*
