@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentralStation.API", "Centr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentralStation.WebUI", "CentralStation.WebUI\CentralStation.WebUI.csproj", "{5F19E7F3-8F89-4D2F-B42F-C7E754DB7C27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentralStation.EFCore", "CentralStation.EFCore\CentralStation.EFCore.csproj", "{0CEC9313-F7DE-4784-A9ED-F2830D547E4A}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Migrator", "Migrator\Migrator.csproj", "{4ADCA3DE-B1A2-4A23-BB64-570EB10D9C2C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentralStation.Core", "CentralStation.Core\CentralStation.Core.csproj", "{76D5C58D-B36F-423F-862A-AF1F40C7BC71}"
@@ -22,6 +24,10 @@ Global
 		{5F19E7F3-8F89-4D2F-B42F-C7E754DB7C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F19E7F3-8F89-4D2F-B42F-C7E754DB7C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F19E7F3-8F89-4D2F-B42F-C7E754DB7C27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CEC9313-F7DE-4784-A9ED-F2830D547E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CEC9313-F7DE-4784-A9ED-F2830D547E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CEC9313-F7DE-4784-A9ED-F2830D547E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CEC9313-F7DE-4784-A9ED-F2830D547E4A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4ADCA3DE-B1A2-4A23-BB64-570EB10D9C2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4ADCA3DE-B1A2-4A23-BB64-570EB10D9C2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4ADCA3DE-B1A2-4A23-BB64-570EB10D9C2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
