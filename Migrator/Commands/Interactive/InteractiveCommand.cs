@@ -34,25 +34,19 @@ internal sealed class InteractiveCommand : AsyncCommand<MigratorCommandSettingsB
     /// <inheritdoc />
     public override async Task<int> ExecuteAsync(CommandContext context, MigratorCommandSettingsBase settingsSettings)
     {
-        MigratorAction selection;
+        var selection = AnsiConsole.Prompt(new SelectionPrompt<MigratorAction>()
+            .AddChoices(Enum.GetValues<MigratorAction>())
+            .UseConverter(Helper.Description)
+        );
 
-        do
+        await (selection switch
         {
-            selection = AnsiConsole.Prompt(new SelectionPrompt<MigratorAction>()
-                .AddChoices(Enum.GetValues<MigratorAction>())
-                .UseConverter(Helper.Description)
-            );
-
-            await (selection switch
-            {
-                MigratorAction.Migrate => HandleUpdateDatabase(settingsSettings),
-                MigratorAction.Create => HandleCreateMigration(settingsSettings),
-                MigratorAction.Remove => HandleRemoveMigration(settingsSettings),
-                MigratorAction.Quit => Task.CompletedTask,
-                _ => throw new Exception("Function not implemented")
-                // _ => throw new ArgumentOutOfRangeException(null, "Function not implemented")
-            });
-        } while (selection != MigratorAction.Quit);
+            MigratorAction.Migrate => HandleUpdateDatabase(settingsSettings),
+            MigratorAction.Create => HandleCreateMigration(settingsSettings),
+            MigratorAction.Remove => HandleRemoveMigration(settingsSettings),
+            MigratorAction.Quit => Task.CompletedTask,
+            _ => throw new ArgumentOutOfRangeException(null, "Function not implemented")
+        });
 
         return 0;
     }
