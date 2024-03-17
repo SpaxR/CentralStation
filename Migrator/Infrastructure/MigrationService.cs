@@ -61,14 +61,15 @@ public class MigrationService : IMigrationService
                 return Task.CompletedTask;
         }
 
+        AnsiConsole.Status().Start("Creating Migration...", ctx =>
+        {
+            var migration = _scaffold.ScaffoldMigration(settings.Name, nameof(CentralStation));
 
-        var migration = _scaffold.ScaffoldMigration(settings.Name, nameof(CentralStation));
+            ctx.Status = "Saving File...";
+            var files = _scaffold.Save(Helper.FindProjectDirectory<CentralStationDbContext>(), migration, null);
 
-        AnsiConsole.WriteLine("Created Migration");
-
-        var files = _scaffold.Save(Helper.FindProjectDirectory<CentralStationDbContext>(), migration, null);
-
-        AnsiConsole.WriteLine("Saved File " + Path.GetFileName(files.MigrationFile));
+            AnsiConsole.WriteLine("Saved File " + Path.GetFileName(files.MigrationFile));
+        });
 
         return Task.CompletedTask;
     }
@@ -91,12 +92,17 @@ public class MigrationService : IMigrationService
             return Task.CompletedTask;
         }
 
-        _scaffold.RemoveMigration(
-            Helper.FindProjectDirectory<CentralStationDbContext>(),
-            rootNamespace: null,
-            force: true,
-            language: null
-        );
+        AnsiConsole.Status().Start("Removing...", _ =>
+        {
+            // TODO Update Database before Removing Migration
+
+            _scaffold.RemoveMigration(
+                Helper.FindProjectDirectory<CentralStationDbContext>(),
+                rootNamespace: null,
+                force: true,
+                language: null
+            );
+        });
 
         AnsiConsole.WriteLine("Successfully removed Migration");
 

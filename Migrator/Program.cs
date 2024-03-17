@@ -50,4 +50,4 @@ AnsiConsole.Write(new FigletText("Migrator"));
 
 await app.RunAsync(args);
 
-AnsiConsole.Write("kthxbye");
+AnsiConsole.MarkupLine("[yellow]kthxbye[/]");
