@@ -1,3 +1,6 @@
+using System.Reflection;
+using AutoMapper;
+using CentralStation.API;
 using CentralStation.EFCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +11,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddEntityFrameworkCore(builder.Configuration);
+builder.Services.AddControllers();
+
+builder.Services.AddAutoMapper(config =>
+{
+    config.AddMaps(Assembly.GetExecutingAssembly());
+});
 
 var app = builder.Build();
 
@@ -40,9 +49,14 @@ app.MapGet("/weatherforecast", () =>
     .WithName("GetWeatherForecast")
     .WithOpenApi();
 
+app.MapControllers();
+
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+namespace CentralStation.API
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+    {
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
 }

@@ -1,0 +1,13 @@
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using CentralStation.Core;
+
+namespace CentralStation.Application.Networking.Entities;
+
+[Table("networks", Schema = "network")]
+public class Network : Entity
+{
+    public string? DisplayName { get; set; }
+
+    public int Address { get; set; }
+    public int Subnet { get; set; }
+}
