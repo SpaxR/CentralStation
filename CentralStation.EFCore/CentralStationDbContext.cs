@@ -1,12 +1,14 @@
-﻿using CentralStation.Application.Networking.Entities;
-using CentralStation.Core;
+﻿using CentralStation.Core;
+using CentralStation.Domain.Networking.Entities;
 using Microsoft.EntityFrameworkCore;
+
+// ReSharper disable ReturnTypeCanBeEnumerable.Global
 
 namespace CentralStation.EFCore;
 
 public class CentralStationDbContext : DbContext
 {
-    public DbSet<Network> Networks => Set<Network>();
+    public DbSet<NetworkEntity> Networks => Set<NetworkEntity>();
     public DbSet<NetworkDevice> NetworkDevices => Set<NetworkDevice>();
 
     /// <inheritdoc />

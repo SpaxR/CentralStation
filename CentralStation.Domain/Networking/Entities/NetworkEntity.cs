@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using CentralStation.Core;
 
-namespace CentralStation.Application.Networking.Entities;
+namespace CentralStation.Domain.Networking.Entities;
 
 [Table("networks", Schema = "network")]
-public class Network : Entity
+public class NetworkEntity : Entity
 {
     public string? DisplayName { get; set; }
 

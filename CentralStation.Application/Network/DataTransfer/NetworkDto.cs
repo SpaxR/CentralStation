@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+using CentralStation.Domain.Networking.Entities;
 
-namespace CentralStation.API.Controllers.Network.DataTransfer;
+namespace CentralStation.Application.Network.DataTransfer;
 
-[AutoMap(typeof(Application.Networking.Entities.Network))]
+[AutoMap(typeof(NetworkEntity))]
 public class NetworkDto
 {
     public int Id { get; set; }
