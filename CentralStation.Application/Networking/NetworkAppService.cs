@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
-using CentralStation.Application.Network.DataTransfer;
 using CentralStation.Core;
 using CentralStation.Domain.Networking.Entities;
 
-namespace CentralStation.Application.Network;
+namespace CentralStation.Application.Networking;
 
 public class NetworkAppService : IApplicationService
 {
     private readonly IMapper _mapper;
-    private readonly IRepository<NetworkEntity> _networkRepository;
+    private readonly IRepository<Network> _networkRepository;
 
-    public NetworkAppService(IMapper mapper, IRepository<NetworkEntity> networkRepository)
+    public NetworkAppService(IMapper mapper, IRepository<Network> networkRepository)
     {
         _mapper = mapper;
         _networkRepository = networkRepository;
@@ -35,19 +34,19 @@ public class NetworkAppService : IApplicationService
 
     public async Task<int> CreateNetwork(CreateNetworkDto network)
     {
-        var entity = _mapper.Map<NetworkEntity>(network);
+        var entity = _mapper.Map<Network>(network);
         await _networkRepository.InsertAsync(entity);
         return entity.Id;
     }
 
     public void UpdateNetwork(UpdateNetworkDto network)
     {
-        var entity = _mapper.Map<NetworkEntity>(network);
+        var entity = _mapper.Map<Network>(network);
         _networkRepository.Update(entity);
     }
 
     public void DeleteNetwork(int id)
     {
-        _networkRepository.Delete(new NetworkEntity { Id = id });
+        _networkRepository.Delete(new Network { Id = id });
     }
 }

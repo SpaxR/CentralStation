@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CentralStation.Domain.Networking.Entities;
 
-namespace CentralStation.Application.Network.DataTransfer;
+namespace CentralStation.Application.Networking;
 
 [AutoMap(typeof(NetworkDevice), ReverseMap = true)]
 public class UpdateNetworkDeviceDto

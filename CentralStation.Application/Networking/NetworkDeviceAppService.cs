@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using CentralStation.Application.Network.DataTransfer;
 using CentralStation.Core;
 using CentralStation.Domain.Networking.Entities;
 
-namespace CentralStation.Application.Network;
+namespace CentralStation.Application.Networking;
 
 public class NetworkDeviceAppService : IApplicationService
 {

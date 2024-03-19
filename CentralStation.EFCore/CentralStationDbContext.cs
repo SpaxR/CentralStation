@@ -8,7 +8,7 @@ namespace CentralStation.EFCore;
 
 public class CentralStationDbContext : DbContext
 {
-    public DbSet<NetworkEntity> Networks => Set<NetworkEntity>();
+    public DbSet<Network> Networks => Set<Network>();
     public DbSet<NetworkDevice> NetworkDevices => Set<NetworkDevice>();
 
     /// <inheritdoc />

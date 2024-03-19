@@ -4,7 +4,7 @@ using CentralStation.Core;
 namespace CentralStation.Domain.Networking.Entities;
 
 [Table("networks", Schema = "network")]
-public class NetworkEntity : Entity
+public class Network : Entity
 {
     public string? DisplayName { get; set; }
 

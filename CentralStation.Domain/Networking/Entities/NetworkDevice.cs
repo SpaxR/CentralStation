@@ -7,7 +7,7 @@ namespace CentralStation.Domain.Networking.Entities;
 public class NetworkDevice : Entity
 {
     public int NetworkId { get; init; }
-    public NetworkEntity? Network { get; init; }
+    public Network? Network { get; init; }
 
     public int Address { get; init; }
 

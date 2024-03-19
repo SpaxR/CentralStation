@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using CentralStation.Domain.Networking.Entities;
 
-namespace CentralStation.Application.Network.DataTransfer;
+namespace CentralStation.Application.Networking;
 
-[AutoMap(typeof(NetworkEntity), ReverseMap = true)]
+[AutoMap(typeof(Network), ReverseMap = true)]
 public class CreateNetworkDto
 {
     public string? DisplayName { get; set; }
