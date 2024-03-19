@@ -1,0 +1,26 @@
+<div style="background: lightgreen; padding: 1em; display:flex; flex-direction: column">
+  Create Network:
+  <label>
+    Name:
+    <input [(ngModel)]="newNetwork.displayName">
+  </label>
+  <label>
+    Address:
+    <input type="number" [(ngModel)]="newNetwork.address">
+  </label>
+  <label>
+    SubNet:
+    <input type="number" [(ngModel)]="newNetwork.subnet">
+  </label>
+  <button (click)="createNetwork()">Create</button>
+</div>
+
+<div style="background: lightblue; padding:1em;">
+  Networks:
+  <ul>
+    <li *ngFor="let network of networks|async">
+      ({{ network.id }}) | {{ network.displayName }} | {{ network.address }} | {{ network.subnet }}
+      <button (click)="deleteNetwork(network.id!)">Delete</button>
+    </li>
+  </ul>
+</div>
