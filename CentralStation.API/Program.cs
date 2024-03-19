@@ -12,10 +12,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddEntityFrameworkCore(builder.Configuration);
 
-builder.Services.AddControllers(config =>
-    {
-        config.Conventions.Add(new CentralStationControllerConvention());
-    })
+builder.Services.AddControllers(config => { config.Conventions.Add(new CentralStationControllerConvention()); })
     .ConfigureApplicationPartManager(manager =>
     {
         manager.FeatureProviders.Add(new CentralStationControllerProvider());
@@ -36,6 +33,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(cors => cors
+    .WithOrigins(app.Configuration["ClientAddress"]!)
+    .AllowAnyMethod()
+);
 
 app.UseHttpsRedirection();
 
