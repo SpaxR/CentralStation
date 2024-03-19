@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CentralStation.Core\CentralStation.Core.csproj" />
-      <ProjectReference Include="..\CentralStation.Domain\CentralStation.Domain.csproj" />
     </ItemGroup>
 
 </Project>
