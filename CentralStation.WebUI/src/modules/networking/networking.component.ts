@@ -1,5 +1,10 @@
 import {Component} from '@angular/core';
-import {NetworkDto, NetworkProxy} from "../../shared/service-proxies/service-proxies";
+import {
+  CreateNetworkDto,
+  NetworkDto,
+  NetworkProxy,
+  PaginationOptions
+} from "../../shared/service-proxies/service-proxies";
 import {FormsModule} from "@angular/forms";
 import {Observable, startWith, Subject, switchMap} from "rxjs";
 import {AsyncPipe} from "@angular/common";
@@ -37,12 +42,16 @@ export class NetworkingComponent {
   constructor(private proxy: NetworkProxy) {
     this.networks = this.reloadNetworks.pipe(
       startWith(undefined),
-      switchMap(() => proxy.getAll(0, 10))
+      switchMap(() => proxy.getAll(new PaginationOptions({pageIndex: 0, pageSize: 10}))),
     )
   }
 
   createNetwork() {
-    this.proxy.createNetwork(this.newNetwork.displayName, this.newNetwork.address, this.newNetwork.subnet)
+    this.proxy.createNetwork(new CreateNetworkDto({
+      displayName: this.newNetwork.displayName,
+      address: this.newNetwork.address,
+      subnet: this.newNetwork.subnet,
+    }))
       .subscribe(() => this.reloadNetworks.next());
 
   }

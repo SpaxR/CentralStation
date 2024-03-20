@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "create-proxies":"nswag run src/shared/service-proxies/config.nswag"
   },
   "private": true,
   "dependencies": {

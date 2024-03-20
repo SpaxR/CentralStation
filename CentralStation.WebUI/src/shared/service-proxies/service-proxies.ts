@@ -27,31 +27,26 @@ export class NetworkProxy {
     }
 
     /**
-     * @param pageIndex (optional) 
-     * @param pageSize (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    getAll(pageIndex: number | undefined, pageSize: number | undefined): Observable<NetworkDto[]> {
-        let url_ = this.baseUrl + "/api/Network/GetAll?";
-        if (pageIndex === null)
-            throw new Error("The parameter 'pageIndex' cannot be null.");
-        else if (pageIndex !== undefined)
-            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
-        if (pageSize === null)
-            throw new Error("The parameter 'pageSize' cannot be null.");
-        else if (pageSize !== undefined)
-            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    getAll(body: PaginationOptions | undefined): Observable<NetworkDto[]> {
+        let url_ = this.baseUrl + "/api/Network/GetAll";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processGetAll(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -151,36 +146,26 @@ export class NetworkProxy {
     }
 
     /**
-     * @param displayName (optional) 
-     * @param address (optional) 
-     * @param subnet (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    createNetwork(displayName: string | undefined, address: number | undefined, subnet: number | undefined): Observable<number> {
-        let url_ = this.baseUrl + "/api/Network/CreateNetwork?";
-        if (displayName === null)
-            throw new Error("The parameter 'displayName' cannot be null.");
-        else if (displayName !== undefined)
-            url_ += "DisplayName=" + encodeURIComponent("" + displayName) + "&";
-        if (address === null)
-            throw new Error("The parameter 'address' cannot be null.");
-        else if (address !== undefined)
-            url_ += "Address=" + encodeURIComponent("" + address) + "&";
-        if (subnet === null)
-            throw new Error("The parameter 'subnet' cannot be null.");
-        else if (subnet !== undefined)
-            url_ += "Subnet=" + encodeURIComponent("" + subnet) + "&";
+    createNetwork(body: CreateNetworkDto | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/Network/CreateNetwork";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processCreateNetwork(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -218,40 +203,25 @@ export class NetworkProxy {
     }
 
     /**
-     * @param id (optional) 
-     * @param displayName (optional) 
-     * @param address (optional) 
-     * @param subnet (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    updateNetwork(id: number | undefined, displayName: string | undefined, address: number | undefined, subnet: number | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/Network/UpdateNetwork?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
-        if (displayName === null)
-            throw new Error("The parameter 'displayName' cannot be null.");
-        else if (displayName !== undefined)
-            url_ += "DisplayName=" + encodeURIComponent("" + displayName) + "&";
-        if (address === null)
-            throw new Error("The parameter 'address' cannot be null.");
-        else if (address !== undefined)
-            url_ += "Address=" + encodeURIComponent("" + address) + "&";
-        if (subnet === null)
-            throw new Error("The parameter 'subnet' cannot be null.");
-        else if (subnet !== undefined)
-            url_ += "Subnet=" + encodeURIComponent("" + subnet) + "&";
+    updateNetwork(body: UpdateNetworkDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/Network/UpdateNetwork";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processUpdateNetwork(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -349,31 +319,26 @@ export class NetworkDeviceProxy {
     }
 
     /**
-     * @param pageIndex (optional) 
-     * @param pageSize (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    getNetworkDevices(pageIndex: number | undefined, pageSize: number | undefined): Observable<NetworkDeviceDto[]> {
-        let url_ = this.baseUrl + "/api/NetworkDevice/GetNetworkDevices?";
-        if (pageIndex === null)
-            throw new Error("The parameter 'pageIndex' cannot be null.");
-        else if (pageIndex !== undefined)
-            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
-        if (pageSize === null)
-            throw new Error("The parameter 'pageSize' cannot be null.");
-        else if (pageSize !== undefined)
-            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    getNetworkDevices(body: PaginationOptions | undefined): Observable<NetworkDeviceDto[]> {
+        let url_ = this.baseUrl + "/api/NetworkDevice/GetNetworkDevices";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processGetNetworkDevices(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -417,36 +382,26 @@ export class NetworkDeviceProxy {
     }
 
     /**
-     * @param displayName (optional) 
-     * @param networkId (optional) 
-     * @param address (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    createNetworkDevice(displayName: string | undefined, networkId: number | undefined, address: number | undefined): Observable<number> {
-        let url_ = this.baseUrl + "/api/NetworkDevice/CreateNetworkDevice?";
-        if (displayName === null)
-            throw new Error("The parameter 'displayName' cannot be null.");
-        else if (displayName !== undefined)
-            url_ += "DisplayName=" + encodeURIComponent("" + displayName) + "&";
-        if (networkId === null)
-            throw new Error("The parameter 'networkId' cannot be null.");
-        else if (networkId !== undefined)
-            url_ += "NetworkId=" + encodeURIComponent("" + networkId) + "&";
-        if (address === null)
-            throw new Error("The parameter 'address' cannot be null.");
-        else if (address !== undefined)
-            url_ += "Address=" + encodeURIComponent("" + address) + "&";
+    createNetworkDevice(body: CreateNetworkDeviceDto | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/NetworkDevice/CreateNetworkDevice";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processCreateNetworkDevice(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -484,40 +439,25 @@ export class NetworkDeviceProxy {
     }
 
     /**
-     * @param id (optional) 
-     * @param displayName (optional) 
-     * @param address (optional) 
-     * @param networkId (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    updateNetworkDevice(id: number | undefined, displayName: string | undefined, address: number | undefined, networkId: number | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/NetworkDevice/UpdateNetworkDevice?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
-        if (displayName === null)
-            throw new Error("The parameter 'displayName' cannot be null.");
-        else if (displayName !== undefined)
-            url_ += "DisplayName=" + encodeURIComponent("" + displayName) + "&";
-        if (address === null)
-            throw new Error("The parameter 'address' cannot be null.");
-        else if (address !== undefined)
-            url_ += "Address=" + encodeURIComponent("" + address) + "&";
-        if (networkId === null)
-            throw new Error("The parameter 'networkId' cannot be null.");
-        else if (networkId !== undefined)
-            url_ += "NetworkId=" + encodeURIComponent("" + networkId) + "&";
+    updateNetworkDevice(body: UpdateNetworkDeviceDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/NetworkDevice/UpdateNetworkDevice";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processUpdateNetworkDevice(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -601,6 +541,94 @@ export class NetworkDeviceProxy {
         }
         return _observableOf(null as any);
     }
+}
+
+export class CreateNetworkDeviceDto implements ICreateNetworkDeviceDto {
+    displayName?: string | undefined;
+    networkId?: number;
+    address?: number;
+
+    constructor(data?: ICreateNetworkDeviceDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.displayName = _data["displayName"];
+            this.networkId = _data["networkId"];
+            this.address = _data["address"];
+        }
+    }
+
+    static fromJS(data: any): CreateNetworkDeviceDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateNetworkDeviceDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["displayName"] = this.displayName;
+        data["networkId"] = this.networkId;
+        data["address"] = this.address;
+        return data;
+    }
+}
+
+export interface ICreateNetworkDeviceDto {
+    displayName?: string | undefined;
+    networkId?: number;
+    address?: number;
+}
+
+export class CreateNetworkDto implements ICreateNetworkDto {
+    displayName?: string | undefined;
+    address?: number;
+    subnet?: number;
+
+    constructor(data?: ICreateNetworkDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.displayName = _data["displayName"];
+            this.address = _data["address"];
+            this.subnet = _data["subnet"];
+        }
+    }
+
+    static fromJS(data: any): CreateNetworkDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateNetworkDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["displayName"] = this.displayName;
+        data["address"] = this.address;
+        data["subnet"] = this.subnet;
+        return data;
+    }
+}
+
+export interface ICreateNetworkDto {
+    displayName?: string | undefined;
+    address?: number;
+    subnet?: number;
 }
 
 export class NetworkDeviceDto implements INetworkDeviceDto {
@@ -693,6 +721,142 @@ export class NetworkDto implements INetworkDto {
 }
 
 export interface INetworkDto {
+    id?: number;
+    displayName?: string | undefined;
+    address?: number;
+    subnet?: number;
+}
+
+export class PaginationOptions implements IPaginationOptions {
+    pageIndex?: number;
+    pageSize?: number;
+
+    constructor(data?: IPaginationOptions) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.pageIndex = _data["pageIndex"];
+            this.pageSize = _data["pageSize"];
+        }
+    }
+
+    static fromJS(data: any): PaginationOptions {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginationOptions();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageIndex"] = this.pageIndex;
+        data["pageSize"] = this.pageSize;
+        return data;
+    }
+}
+
+export interface IPaginationOptions {
+    pageIndex?: number;
+    pageSize?: number;
+}
+
+export class UpdateNetworkDeviceDto implements IUpdateNetworkDeviceDto {
+    id?: number;
+    displayName?: string | undefined;
+    address?: number | undefined;
+    networkId?: number;
+
+    constructor(data?: IUpdateNetworkDeviceDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+            this.address = _data["address"];
+            this.networkId = _data["networkId"];
+        }
+    }
+
+    static fromJS(data: any): UpdateNetworkDeviceDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateNetworkDeviceDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        data["address"] = this.address;
+        data["networkId"] = this.networkId;
+        return data;
+    }
+}
+
+export interface IUpdateNetworkDeviceDto {
+    id?: number;
+    displayName?: string | undefined;
+    address?: number | undefined;
+    networkId?: number;
+}
+
+export class UpdateNetworkDto implements IUpdateNetworkDto {
+    id?: number;
+    displayName?: string | undefined;
+    address?: number;
+    subnet?: number;
+
+    constructor(data?: IUpdateNetworkDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.displayName = _data["displayName"];
+            this.address = _data["address"];
+            this.subnet = _data["subnet"];
+        }
+    }
+
+    static fromJS(data: any): UpdateNetworkDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateNetworkDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["displayName"] = this.displayName;
+        data["address"] = this.address;
+        data["subnet"] = this.subnet;
+        return data;
+    }
+}
+
+export interface IUpdateNetworkDto {
     id?: number;
     displayName?: string | undefined;
     address?: number;
