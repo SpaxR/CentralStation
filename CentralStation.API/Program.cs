@@ -37,6 +37,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors(cors => cors
     .WithOrigins(app.Configuration["ClientAddress"]!)
     .AllowAnyMethod()
+    .AllowAnyHeader()
 );
 
 app.UseHttpsRedirection();
