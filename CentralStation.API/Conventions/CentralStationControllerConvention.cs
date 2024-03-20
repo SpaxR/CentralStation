@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CentralStation.API.Conventions;
 
@@ -85,11 +86,27 @@ public class CentralStationControllerConvention : IApplicationModelConvention
                 fix.Any(postfix => actionName.EndsWith(postfix))
             )
             {
-                return method.Method;
+                return IsPostMethodPreferred(action)
+                    ? HttpMethod.Post.Method
+                    : method.Method;
             }
         }
 
 
         return HttpMethod.Post.Method;
+    }
+
+    private static bool IsPostMethodPreferred(ActionModel action)
+    {
+        var complexParam = action.Parameters
+            .FirstOrDefault(param => !param.ParameterType.IsPrimitive);
+
+        if (complexParam == null)
+            return false;
+
+        complexParam.BindingInfo ??= new BindingInfo();
+        complexParam.BindingInfo.BindingSource = BindingSource.Body;
+
+        return true;
     }
 }
