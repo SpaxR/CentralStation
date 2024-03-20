@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {ServiceProxiesModule} from "../shared/service-proxies/service-proxies.module";
+import {ServiceProxiesModule} from "./shared/service-proxies/service-proxies.module";
 
 @Component({
   selector: 'app-root',
