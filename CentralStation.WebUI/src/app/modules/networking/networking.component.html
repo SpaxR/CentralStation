@@ -32,7 +32,7 @@
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-network>
+    <ng-template pTemplate="body" [templateType]="networks" let-network>
       <tr>
         <td>{{ network.id }}</td>
         <td>{{ network.displayName }}</td>

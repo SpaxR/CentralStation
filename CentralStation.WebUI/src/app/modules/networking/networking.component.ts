@@ -14,6 +14,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputGroupModule} from "primeng/inputgroup";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
+import {TemplateTypeDirective} from "../../shared/directives/template-type.directive";
 
 @Component({
   selector: 'app-networking',
@@ -27,7 +28,8 @@ import {InputGroupAddonModule} from "primeng/inputgroupaddon";
     InputNumberModule,
     InputGroupModule,
     InputGroupAddonModule,
-    NgIf
+    NgIf,
+    TemplateTypeDirective
   ],
   templateUrl: './networking.component.html',
   styleUrl: './networking.component.scss'
