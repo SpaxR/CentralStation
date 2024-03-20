@@ -1,26 +1,56 @@
 <div style="background: lightgreen; padding: 1em; display:flex; flex-direction: column">
-  Create Network:
-  <label>
-    Name:
-    <input [(ngModel)]="newNetwork.displayName">
-  </label>
-  <label>
-    Address:
-    <input type="number" [(ngModel)]="newNetwork.address">
-  </label>
-  <label>
-    SubNet:
-    <input type="number" [(ngModel)]="newNetwork.subnet">
-  </label>
-  <button (click)="createNetwork()">Create</button>
+  <h2>Create Network</h2>
+
+  <p-inputGroup>
+    <p-inputGroupAddon [style]="{width: '4em'}">Name</p-inputGroupAddon>
+    <input pInputText [(ngModel)]="newNetwork.displayName">
+  </p-inputGroup>
+
+  <p-inputGroup>
+    <p-inputGroupAddon [style]="{width: '4em'}">Address</p-inputGroupAddon>
+    <p-inputNumber [(ngModel)]="newNetwork.address"></p-inputNumber>
+  </p-inputGroup>
+
+  <p-inputGroup>
+    <p-inputGroupAddon [style]="{width: '4em'}">SubNet</p-inputGroupAddon>
+    <p-inputNumber [(ngModel)]="newNetwork.subnet"></p-inputNumber>
+  </p-inputGroup>
+
+  <p-button (click)="createNetwork()">Create</p-button>
 </div>
 
 <div style="background: lightblue; padding:1em;">
-  Networks:
-  <ul>
-    <li *ngFor="let network of networks|async">
-      ({{ network.id }}) | {{ network.displayName }} | {{ network.address }} | {{ network.subnet }}
-      <button (click)="deleteNetwork(network.id!)">Delete</button>
-    </li>
-  </ul>
+  <h2>Networks</h2>
+  <p-table dataKey="id" [value]="(networks|async)!">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>SubNet</th>
+        <th>Action</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-network>
+      <tr>
+        <td>{{ network.id }}</td>
+        <td>{{ network.displayName }}</td>
+        <td>{{ network.address }}</td>
+        <td>{{ network.subnet }}</td>
+        <td>
+          <p-button
+            icon="pi pi-times"
+            severity="danger"
+            [text]="true"
+            [rounded]="true"
+            (click)="deleteNetwork(network.id!)"
+          />
+        </td>
+
+      </tr>
+    </ng-template>
+
+  </p-table>
+
 </div>
