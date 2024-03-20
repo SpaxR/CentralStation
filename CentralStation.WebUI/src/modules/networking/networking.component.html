@@ -21,7 +21,7 @@
 
 <div style="background: lightblue; padding:1em;">
   <h2>Networks</h2>
-  <p-table dataKey="id" [value]="(networks|async)!">
+  <p-table dataKey="id" [value]="(networks|async)!" [loading]="isLoadingNetworks">
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
@@ -50,7 +50,10 @@
 
       </tr>
     </ng-template>
-
   </p-table>
+
+  <div *ngIf="loadingNetworksError" style="background: indianred; padding: .5em; display: flex; justify-content: center">
+    {{loadingNetworksError}}
+  </div>
 
 </div>

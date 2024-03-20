@@ -6,8 +6,8 @@ import {
   PaginationOptions
 } from "../../shared/service-proxies/service-proxies";
 import {FormsModule} from "@angular/forms";
-import {Observable, startWith, Subject, switchMap} from "rxjs";
-import {AsyncPipe} from "@angular/common";
+import {catchError, EMPTY, Observable, startWith, Subject, switchMap, tap} from "rxjs";
+import {AsyncPipe, NgIf} from "@angular/common";
 import {ButtonModule} from "primeng/button";
 import {TableModule} from "primeng/table";
 import {InputTextModule} from "primeng/inputtext";
@@ -26,7 +26,8 @@ import {InputGroupAddonModule} from "primeng/inputgroupaddon";
     InputTextModule,
     InputNumberModule,
     InputGroupModule,
-    InputGroupAddonModule
+    InputGroupAddonModule,
+    NgIf
   ],
   templateUrl: './networking.component.html',
   styleUrl: './networking.component.scss'
@@ -37,12 +38,26 @@ export class NetworkingComponent {
 
   networks: Observable<NetworkDto[]>;
 
+  isLoadingNetworks = false;
+  loadingNetworksError?: string;
+
   private reloadNetworks = new Subject<void>();
 
   constructor(private proxy: NetworkProxy) {
+    this.isLoadingNetworks = true;
     this.networks = this.reloadNetworks.pipe(
       startWith(undefined),
+      tap(() => {
+        this.loadingNetworksError = undefined;
+        this.isLoadingNetworks = true;
+      }),
       switchMap(() => proxy.getAll(new PaginationOptions({pageIndex: 0, pageSize: 10}))),
+      catchError(error => {
+        this.isLoadingNetworks = false;
+        this.loadingNetworksError = error.message;
+        return EMPTY;
+      }),
+      tap(() => this.isLoadingNetworks = false),
     )
   }
 
