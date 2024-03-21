@@ -6,5 +6,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./modules/networking/network-overview/network-overview.component')
         .then(component => component.NetworkOverviewComponent)
+  },
+  {
+    path: 'network/:network-id',
+    loadComponent: () =>
+      import('./modules/networking/network-device-overview/network-device-overview.component')
+        .then(component => component.NetworkDeviceOverviewComponent)
   }
 ];

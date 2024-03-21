@@ -35,7 +35,11 @@
     <ng-template pTemplate="body" [templateType]="networks" let-network>
       <tr>
         <td>{{ network.id }}</td>
-        <td>{{ network.displayName }}</td>
+        <td>
+          <p-button [link]="true" [routerLink]="['..', 'network', network.id]">
+            {{ network.displayName }}
+          </p-button>
+        </td>
         <td>{{ network.address }}</td>
         <td>{{ network.subnet }}</td>
         <td>
