@@ -1,1 +1,25 @@
-<p>network-device-overview works!</p>
+Network: {{ (network|async)?.displayName }}
+
+<div style="background: lightgreen; padding: 1em; display:flex; flex-direction: column">
+  <h2>Create Network</h2>
+
+  <p-inputGroup>
+    <p-inputGroupAddon [style]="{width: '4em'}">Name</p-inputGroupAddon>
+    <input pInputText [(ngModel)]="newNetworkDevice.displayName">
+  </p-inputGroup>
+
+  <p-inputGroup>
+    <p-inputGroupAddon [style]="{width: '4em'}">Address</p-inputGroupAddon>
+    <p-inputNumber [(ngModel)]="newNetworkDevice.address"></p-inputNumber>
+  </p-inputGroup>
+
+  <p-button (click)="createNetworkDevice()">Create</p-button>
+</div>
+
+<br/>
+Devices:
+<ul>
+  <li *ngFor="let device of devices|async">
+    ({{ device.id }}) {{ device.displayName }} | {{ device.address }}
+  </li>
+</ul>

@@ -38,7 +38,7 @@ import {RouterLink} from "@angular/router";
 })
 export class NetworkOverviewComponent {
 
-  newNetwork: NetworkDto = new NetworkDto();
+  newNetwork = new CreateNetworkDto();
 
   networks: Observable<NetworkDto[]>;
 
@@ -71,6 +71,7 @@ export class NetworkOverviewComponent {
       address: this.newNetwork.address,
       subnet: this.newNetwork.subnet,
     }))
+      .pipe(tap(() => this.newNetwork = new NetworkDto()))
       .subscribe(() => this.reloadNetworks.next());
 
   }
