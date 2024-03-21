@@ -4,7 +4,7 @@ import {
   NetworkDto,
   NetworkProxy,
   PaginationOptions
-} from "../../shared/service-proxies/service-proxies";
+} from "../../../shared/service-proxies/service-proxies";
 import {FormsModule} from "@angular/forms";
 import {catchError, EMPTY, Observable, startWith, Subject, switchMap, tap} from "rxjs";
 import {AsyncPipe, NgIf} from "@angular/common";
@@ -14,7 +14,8 @@ import {InputTextModule} from "primeng/inputtext";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputGroupModule} from "primeng/inputgroup";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
-import {TemplateTypeDirective} from "../../shared/directives/template-type.directive";
+import {TemplateTypeDirective} from "../../../shared/directives/template-type.directive";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-networking',
@@ -29,12 +30,13 @@ import {TemplateTypeDirective} from "../../shared/directives/template-type.direc
     InputGroupModule,
     InputGroupAddonModule,
     NgIf,
-    TemplateTypeDirective
+    TemplateTypeDirective,
+    RouterLink
   ],
-  templateUrl: './networking.component.html',
-  styleUrl: './networking.component.scss'
+  templateUrl: './network-overview.component.html',
+  styleUrl: './network-overview.component.scss'
 })
-export class NetworkingComponent {
+export class NetworkOverviewComponent {
 
   newNetwork: NetworkDto = new NetworkDto();
 

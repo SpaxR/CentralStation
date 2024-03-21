@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NetworkingComponent } from './networking.component';
+import { NetworkOverviewComponent } from './network-overview.component';
 
 describe('NetworkingComponent', () => {
-  let component: NetworkingComponent;
-  let fixture: ComponentFixture<NetworkingComponent>;
+  let component: NetworkOverviewComponent;
+  let fixture: ComponentFixture<NetworkOverviewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NetworkingComponent]
+      imports: [NetworkOverviewComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(NetworkingComponent);
+
+    fixture = TestBed.createComponent(NetworkOverviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
