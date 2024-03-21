@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "create-proxies":"nswag run src/shared/service-proxies/config.nswag"
+    "create-proxies":"nswag run src/app/shared/service-proxies/config.nswag"
   },
   "private": true,
   "dependencies": {
