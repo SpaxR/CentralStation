@@ -15,11 +15,12 @@ public class NetworkDeviceAppService : IApplicationService
         _deviceRepository = deviceRepository;
     }
 
-    public IEnumerable<NetworkDeviceDto> GetNetworkDevices(PaginationOptions options)
+    public IEnumerable<NetworkDeviceDto> GetNetworkDevices(int networkId, PaginationOptions options)
     {
         var networks = _deviceRepository
             .GetAll()
-            .OrderBy(network => network.Id)
+            .Where(device => device.NetworkId == networkId)
+            .OrderBy(device => device.Id)
             .Skip(options.PageIndex * options.PageSize)
             .Take(options.PageSize);
 

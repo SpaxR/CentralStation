@@ -319,11 +319,16 @@ export class NetworkDeviceProxy {
     }
 
     /**
+     * @param networkId (optional) 
      * @param body (optional) 
      * @return Success
      */
-    getNetworkDevices(body: PaginationOptions | undefined): Observable<NetworkDeviceDto[]> {
-        let url_ = this.baseUrl + "/api/NetworkDevice/GetNetworkDevices";
+    getNetworkDevices(networkId: number | undefined, body: PaginationOptions | undefined): Observable<NetworkDeviceDto[]> {
+        let url_ = this.baseUrl + "/api/NetworkDevice/GetNetworkDevices?";
+        if (networkId === null)
+            throw new Error("The parameter 'networkId' cannot be null.");
+        else if (networkId !== undefined)
+            url_ += "networkId=" + encodeURIComponent("" + networkId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
