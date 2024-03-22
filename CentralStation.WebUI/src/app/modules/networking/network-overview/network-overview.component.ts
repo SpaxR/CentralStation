@@ -1,35 +1,35 @@
 import {Component} from '@angular/core';
-import {
-  CreateNetworkDto,
-  NetworkDto,
-  NetworkProxy,
-  PaginationOptions
-} from "../../../shared/service-proxies/service-proxies";
 import {FormsModule} from "@angular/forms";
-import {catchError, EMPTY, Observable, startWith, Subject, switchMap, tap} from "rxjs";
-import {AsyncPipe, NgIf} from "@angular/common";
+import {RouterLink} from "@angular/router";
 import {ButtonModule} from "primeng/button";
 import {TableModule} from "primeng/table";
 import {InputTextModule} from "primeng/inputtext";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputGroupModule} from "primeng/inputgroup";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
+import {catchError, EMPTY, Observable, startWith, Subject, switchMap, tap} from "rxjs";
+
+import {
+  CreateNetworkDto,
+  NetworkDto,
+  NetworkProxy,
+  PaginationOptions
+} from "../../../shared/service-proxies/service-proxies";
 import {TemplateTypeDirective} from "../../../shared/directives/template-type.directive";
-import {RouterLink} from "@angular/router";
+import {SharedModule} from "../../../shared/shared.module";
 
 @Component({
   selector: 'app-networking',
   standalone: true,
   imports: [
+    SharedModule,
     FormsModule,
-    AsyncPipe,
     ButtonModule,
     TableModule,
     InputTextModule,
     InputNumberModule,
     InputGroupModule,
     InputGroupAddonModule,
-    NgIf,
     TemplateTypeDirective,
     RouterLink
   ],
