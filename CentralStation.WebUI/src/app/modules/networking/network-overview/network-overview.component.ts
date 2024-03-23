@@ -7,7 +7,8 @@ import {InputTextModule} from "primeng/inputtext";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputGroupModule} from "primeng/inputgroup";
 import {InputGroupAddonModule} from "primeng/inputgroupaddon";
-import {catchError, EMPTY, Observable, startWith, Subject, switchMap, tap} from "rxjs";
+import {MessageService} from "primeng/api";
+import {catchError, defer, delay, EMPTY, finalize, Observable, repeat, Subject, tap} from "rxjs";
 
 import {
   CreateNetworkDto,
@@ -31,52 +32,65 @@ import {SharedModule} from "../../../shared/shared.module";
     InputGroupModule,
     InputGroupAddonModule,
     TemplateTypeDirective,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './network-overview.component.html',
   styleUrl: './network-overview.component.scss'
 })
 export class NetworkOverviewComponent {
 
-  newNetwork = new CreateNetworkDto();
-
   networks: Observable<NetworkDto[]>;
+
+  newNetwork = new CreateNetworkDto();
 
   isLoadingNetworks = false;
   loadingNetworksError?: string;
 
   private reloadNetworks = new Subject<void>();
 
-  constructor(private proxy: NetworkProxy) {
-    this.isLoadingNetworks = true;
-    this.networks = this.reloadNetworks.pipe(
-      startWith(undefined),
-      tap(() => {
-        this.loadingNetworksError = undefined;
-        this.isLoadingNetworks = true;
-      }),
-      switchMap(() => proxy.getAll(new PaginationOptions({pageIndex: 0, pageSize: 10}))),
+  constructor(private proxy: NetworkProxy, private messages: MessageService) {
+    this.networks = defer(() => {
+      this.loadingNetworksError = undefined;
+      this.isLoadingNetworks = true;
+      return proxy.getAll(new PaginationOptions({pageIndex: 0, pageSize: 10}));
+    }).pipe(
+      delay(300 /* TODO Add Time-Library and use DateTime */),
+      finalize(() => this.isLoadingNetworks = false),
       catchError(error => {
-        this.isLoadingNetworks = false;
+        this.messages.add({severity: 'error', summary: 'Loading Failed', detail: error.message})
         this.loadingNetworksError = error.message;
         return EMPTY;
       }),
-      tap(() => this.isLoadingNetworks = false),
+      repeat({delay: () => this.reloadNetworks}),
     )
   }
 
   createNetwork() {
-    this.proxy.createNetwork(new CreateNetworkDto({
-      displayName: this.newNetwork.displayName,
-      address: this.newNetwork.address,
-      subnet: this.newNetwork.subnet,
-    }))
-      .pipe(tap(() => this.newNetwork = new NetworkDto()))
-      .subscribe(() => this.reloadNetworks.next());
-
+    this.proxy.createNetwork(this.newNetwork)
+      .pipe(
+        finalize(() => this.reloadNetworks.next()),
+        tap(() => this.newNetwork = new NetworkDto()),
+        catchError(error => {
+          this.messages.add({severity: 'error', summary: 'Creation failed', detail: error.message});
+          return EMPTY;
+        }))
+      .subscribe(() => this.messages.add({severity: 'success', summary: 'Network Created'}));
   }
 
   deleteNetwork(id: number) {
-    this.proxy.deleteNetwork(id).subscribe(() => this.reloadNetworks.next())
+    this.proxy.deleteNetwork(id)
+      .pipe(
+        finalize(() => this.reloadNetworks.next()),
+        catchError(error => {
+          this.messages.add({severity: 'error', summary: 'Deletion failed', detail: error.message});
+          return EMPTY;
+        }),
+      ).subscribe(() =>
+      this.messages.add({severity: 'info', summary: 'Successfully deleted'})
+    )
+  }
+
+  triggerReload() {
+    this.reloadNetworks.next();
   }
 }

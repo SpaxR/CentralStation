@@ -20,7 +20,16 @@
 </div>
 
 <div style="background: lightblue; padding:1em;">
-  <h2>Networks</h2>
+  <div style="display:flex; align-items:center">
+    <h2>Networks</h2>
+    <p-button
+      icon="pi pi-refresh"
+      [text]="true"
+      [rounded]="true"
+      [style]="{'box-shadow':'none'}"
+      (click)="triggerReload()"
+    />
+  </div>
   <p-table dataKey="id" [value]="(networks|async)!" [loading]="isLoadingNetworks">
     <ng-template pTemplate="header">
       <tr>

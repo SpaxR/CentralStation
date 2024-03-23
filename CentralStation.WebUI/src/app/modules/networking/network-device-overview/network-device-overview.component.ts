@@ -7,7 +7,8 @@ import {InputGroupModule} from "primeng/inputgroup";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from "primeng/inputtext";
 import {TableModule} from "primeng/table";
-import {Observable, startWith, Subject, switchMap, tap} from "rxjs";
+import {MessageService} from "primeng/api";
+import {catchError, defer, delay, EMPTY, finalize, Observable, repeat, Subject, tap} from "rxjs";
 
 import {
   CreateNetworkDeviceDto,
@@ -42,40 +43,65 @@ export class NetworkDeviceOverviewComponent {
 
   newNetworkDevice = new CreateNetworkDeviceDto();
 
-  private reloadDevices = new Subject<void>();
-
-  private readonly networkId: number;
-
   isLoadingDevices = false;
   loadingDevicesError?: string;
 
-  constructor(route: ActivatedRoute, networkProxy: NetworkProxy, private deviceProxy: NetworkDeviceProxy) {
-    this.networkId = Number(route.snapshot.paramMap.get('network-id'));
+  private readonly networkId: number;
+  private reloadDevices = new Subject<void>();
 
+  constructor(
+    route: ActivatedRoute,
+    networkProxy: NetworkProxy,
+    private deviceProxy: NetworkDeviceProxy,
+    private messages: MessageService
+  ) {
+    this.networkId = Number(route.snapshot.paramMap.get('network-id'));
     this.network = networkProxy.get(this.networkId);
 
-    this.devices = this.reloadDevices.pipe(
-      startWith(undefined),
-      tap(() => {
-        this.loadingDevicesError = undefined;
-        this.isLoadingDevices = true;
+    this.devices = defer(() => {
+      this.loadingDevicesError = undefined;
+      this.isLoadingDevices = true;
+      return deviceProxy.getNetworkDevices(this.networkId, new PaginationOptions({pageIndex: 0, pageSize: 10}))
+    }).pipe(
+      delay(300 /* TODO Add Time-Library and use DateTime */),
+      finalize(() => this.isLoadingDevices = false),
+      catchError(error => {
+        this.messages.add({severity: 'error', summary: 'Loading Failed', detail: error.message})
+        this.loadingDevicesError = error.message;
+        return EMPTY;
       }),
-      switchMap(() => deviceProxy.getNetworkDevices(this.networkId, new PaginationOptions({
-        pageIndex: 0,
-        pageSize: 10
-      }))),
-      tap(() => this.isLoadingDevices = false)
-    );
+      repeat({delay: () => this.reloadDevices}),
+    )
   }
 
   createNetworkDevice() {
     this.newNetworkDevice.networkId = this.networkId;
 
     this.deviceProxy.createNetworkDevice(this.newNetworkDevice)
-      .subscribe(() => this.reloadDevices.next())
+      .pipe(
+        finalize(() => this.reloadDevices.next()),
+        tap(() => this.newNetworkDevice = new CreateNetworkDeviceDto()),
+        catchError(error => {
+          this.messages.add({severity: 'error', summary: 'Creation failed', detail: error.message});
+          return EMPTY;
+        })
+      ).subscribe(() => this.messages.add({severity: 'success', summary: 'Device Created'}))
   }
 
   deleteDevice(id: number) {
-    this.deviceProxy.deleteNetworkDevice(id).subscribe(() => this.reloadDevices.next())
+    this.deviceProxy.deleteNetworkDevice(id)
+      .pipe(
+        finalize(() => this.reloadDevices.next()),
+        catchError(error => {
+          this.messages.add({severity: 'error', summary: 'Deletion failed', detail: error.message});
+          return EMPTY;
+        })
+      ).subscribe(() =>
+      this.messages.add({severity: 'info', summary: 'Successfully deleted'})
+    );
+  }
+
+  triggerReload() {
+    this.reloadDevices.next();
   }
 }
