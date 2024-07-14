@@ -9,7 +9,9 @@ public static class AppSettingsService
     {
         var config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", true)
+            .AddJsonFile("appsettings.local.json", true)
             .AddJsonFile("appsettings.Development.json", true)
+            .AddJsonFile("appsettings.Development.local.json", true)
             .Build();
 
         return config.GetConnectionString(AppConstants.ApplicationName)
