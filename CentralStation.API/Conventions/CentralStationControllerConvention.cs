@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ActionConstraints;
+﻿using CentralStation.Application;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -18,11 +19,13 @@ public class CentralStationControllerConvention : IApplicationModelConvention
     /// <inheritdoc />
     public void Apply(ApplicationModel application)
     {
-        foreach (var controller in application.Controllers)
-        {
-            Console.WriteLine("Registering " + controller.ControllerName);
-            controller.ControllerName = TrimControllerName(controller.ControllerName);
+        var appServiceController = application.Controllers
+            .Where(c => c.ControllerType.IsAssignableTo(typeof(IApplicationService)));
 
+        foreach (var controller in appServiceController)
+        {
+            Console.WriteLine("Registering Controller " + controller.ControllerName);
+            controller.ControllerName = TrimControllerName(controller.ControllerName);
 
             foreach (var action in controller.Actions)
             {
