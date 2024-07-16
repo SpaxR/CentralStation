@@ -22,8 +22,6 @@ public static class StartupExtensions
      */
     public static IApplicationBuilder UseCentralStationSwagger(this WebApplication app)
     {
-        var logger = app.Services.GetRequiredService<ILogger<Program>>();
-
         app.MapSwagger("docs/{documentName}.json");
         app.UseSwaggerUI(config =>
         {
@@ -34,11 +32,6 @@ public static class StartupExtensions
             config.DefaultModelRendering(ModelRendering.Model);
             config.EnableTryItOutByDefault();
         });
-
-        foreach (var url in app.Configuration["ASPNETCORE_URLS"]!.Split(";"))
-        {
-            logger.LogInformation("API-Documentation: {Endpoint}", url + "/docs");
-        }
 
         return app;
     }
