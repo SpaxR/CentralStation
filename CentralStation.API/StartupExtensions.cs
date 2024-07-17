@@ -12,7 +12,7 @@ public static class StartupExtensions
     {
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(config => { config.SwaggerDoc("v1", new OpenApiInfo { Title = "CentralStation" }); });
+        services.AddSwaggerGen(config => { config.SwaggerDoc("v1", new OpenApiInfo { Title = "CentralStation", Version = "0.0.0"}); });
 
         return services;
     }
