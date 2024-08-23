@@ -1,0 +1,17 @@
+<p-inputGroup>
+  @for (part of parts; track $index) {
+    <p-inputNumber
+      mode="decimal"
+      [useGrouping]="false"
+      [min]="0"
+      [max]="255"
+      [(ngModel)]="parts[$index]"
+      (onFocus)="onFocus($event)"
+      (onBlur)="onAddressChanged()"
+    />
+
+    @if (!$last) {
+      <p-inputGroupAddon>.</p-inputGroupAddon>
+    }
+  }
+</p-inputGroup>
