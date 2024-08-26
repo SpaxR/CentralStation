@@ -10,6 +10,7 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { FormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { Utils } from '../utils';
 
 @Component({
   selector: 'app-network-input',
@@ -31,29 +32,12 @@ export class NetworkInputComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['address']) {
-      if (this.address) {
-        this.setAddressParts(this.address);
-      } else {
-        this.parts = [0, 0, 0, 0];
-      }
+      this.parts = Utils.NumberToIpAddress(this.address ?? 0);
     }
   }
 
-  private setAddressParts(address: number) {
-    this.parts[0] = (address >> 24) & 255;
-    this.parts[1] = (address >> 16) & 255;
-    this.parts[2] = (address >> 8) & 255;
-    this.parts[3] = address & 255;
-  }
-
   protected onAddressChanged() {
-    let result = 0;
-    result += this.parts[0] << 24;
-    result += this.parts[1] << 16;
-    result += this.parts[2] << 8;
-    result += this.parts[3];
-
-    this.addressChange.emit(result);
+    this.addressChange.emit(Utils.IpAddressToNumber(this.parts));
   }
 
   protected onFocus(event: Event) {

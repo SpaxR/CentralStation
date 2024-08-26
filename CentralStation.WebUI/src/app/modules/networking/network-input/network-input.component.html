@@ -7,7 +7,7 @@
       [max]="255"
       [(ngModel)]="parts[$index]"
       (onFocus)="onFocus($event)"
-      (onBlur)="onAddressChanged()"
+      (onInput)="onAddressChanged()"
     />
 
     @if (!$last) {

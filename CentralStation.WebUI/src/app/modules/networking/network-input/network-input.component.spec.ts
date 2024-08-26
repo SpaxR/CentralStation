@@ -1,8 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { InputNumber } from 'primeng/inputnumber';
 
 import { NetworkInputComponent } from './network-input.component';
+import { Utils } from '../utils';
 
 describe('NetworkInputComponent', () => {
   let component: NetworkInputComponent;
@@ -68,22 +69,61 @@ describe('NetworkInputComponent', () => {
       ].componentInstance;
     });
 
-    it('should clamp input[' + index + '] values below 0', () => {
-      inputElement.value = -1;
-      fixture.detectChanges();
+    it('should ignore input of minus-sign', () => {
+      fillInput(inputElement, -7);
 
-      inputElement.onInputBlur(new Event('event'));
-
-      expect(inputElement.value).toBe(0);
+      expect(inputElement.value).toBe(7);
     });
 
-    it('should have clamp values over 255', () => {
-      inputElement.value = 256;
-      fixture.detectChanges();
+    it('should clamp values over 255', () => {
+      fillInput(inputElement, 256);
 
       inputElement.onInputBlur(new Event('event'));
 
       expect(inputElement.value).toBe(255);
     });
   });
+
+  it('should update address on input', fakeAsync(() => {
+    const address = [7, 42, 1, 255]; // random
+    spyOn(component.addressChange, 'emit');
+
+    const inputs = fixture.debugElement
+      .queryAll(By.css('p-inputNumber'))
+      .map((input) => input.componentInstance as InputNumber);
+
+    for (let i = 0; i < inputs.length; i++) {
+      fillInput(inputs[i], address[i]);
+    }
+
+    expect(component.addressChange.emit).toHaveBeenCalledWith(
+      Utils.IpAddressToNumber(address),
+    );
+  }));
 });
+
+function fillInput(component: InputNumber, value: number | string) {
+  component.value = undefined;
+
+  let code: string;
+
+  switch (value) {
+    case '-':
+      code = 'Minus';
+      break;
+    default:
+      code = 'Digit' + value;
+      break;
+  }
+
+  for (let char of value.toString()) {
+    // noinspection JSDeprecatedSymbols
+    component.onInputKeyPress(
+      new KeyboardEvent('event', {
+        code: code,
+        key: char,
+        keyCode: char.charCodeAt(0),
+      }),
+    );
+  }
+}
