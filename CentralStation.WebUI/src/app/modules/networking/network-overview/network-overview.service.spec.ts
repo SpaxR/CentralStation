@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed } from '@angular/core/testing';
 
 import { NetworkOverviewService } from './network-overview.service';
 import {
@@ -18,6 +18,7 @@ import {
 import { EMPTY, of, Subject, throwError } from 'rxjs';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { NetworkEditFormComponent } from '../network-edit-form/network-edit-form.component';
+import { switchError } from '../../../shared/utils/operators';
 
 describe('NetworkOverviewService', () => {
   let service: NetworkOverviewService;
@@ -55,6 +56,13 @@ describe('NetworkOverviewService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should not be loading', fakeAsync(() => {
+    let isLoading: boolean | undefined;
+    service.isLoading$.subscribe((value) => (isLoading = value));
+
+    expect(isLoading).toBeFalse();
+  }));
 
   describe('load', () => {
     it('should initially provide first page', () => {
@@ -106,6 +114,34 @@ describe('NetworkOverviewService', () => {
       response.error(new Error());
 
       expect(isLoading).toBeFalse();
+    });
+
+    describe('on error', () => {
+      it('should forward errors', () => {
+        let error: Error | undefined;
+        proxy.getAll.and.returnValue(throwError(() => new Error()));
+
+        service.networks$
+          .pipe(switchError(EMPTY, (e) => (error = e)))
+          .subscribe();
+        service.load(new PaginationOptions());
+
+        expect(error).toBeTruthy();
+      });
+
+      it('should display toast', () => {
+        proxy.getAll.and.returnValue(throwError(() => new Error()));
+
+        service.load(new PaginationOptions());
+
+        expect(messages.add).toHaveBeenCalledWith(
+          jasmine.objectContaining<Message>({
+            summary: 'Load failed',
+            detail: 'Loading of Networks failed',
+            severity: 'error',
+          }),
+        );
+      });
     });
   });
 

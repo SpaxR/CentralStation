@@ -7,12 +7,12 @@ import {
   PaginationOptions,
 } from '../../../shared/service-proxies/service-proxies';
 import {
+  BehaviorSubject,
   catchError,
   EMPTY,
   filter,
   finalize,
   ReplaySubject,
-  Subject,
 } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { NetworkEditFormComponent } from '../network-edit-form/network-edit-form.component';
@@ -22,7 +22,7 @@ export class NetworkOverviewService {
   private networks = new ReplaySubject<NetworkDto[]>();
   public networks$ = this.networks.asObservable();
 
-  private isLoading = new Subject<boolean>();
+  private isLoading = new BehaviorSubject<boolean>(false);
   public isLoading$ = this.isLoading.asObservable();
 
   constructor(
@@ -42,9 +42,16 @@ export class NetworkOverviewService {
         finalize(() => this.isLoading.next(false)),
         catchError((error) => {
           console.error(error);
+          this.networks.error(error);
+          this.messages.add({
+            severity: 'error',
+            summary: 'Load failed',
+            detail: 'Loading of Networks failed',
+          });
           return EMPTY;
         }),
       )
+
       .subscribe((networks) => this.networks.next(networks));
   }
 
