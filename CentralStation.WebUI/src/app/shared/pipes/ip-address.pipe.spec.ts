@@ -1,7 +1,7 @@
 import { IpAddressPipe } from './ip-address.pipe';
 import { Utils } from '../../modules/networking/utils';
 
-fdescribe('IpAddressPipe', () => {
+describe('IpAddressPipe', () => {
   let pipe: IpAddressPipe;
 
   beforeEach(() => {
