@@ -1,73 +1,64 @@
-<div style="background: lightgreen; padding: 1em; display:flex; flex-direction: column">
-  <h2>Create Network</h2>
+<p-table
+  data-testid="network-table"
+  [loading]="service.isLoading$ | loader | async"
+  [value]="(networks$ | async) ?? []"
+>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="99" class="no-networks">No Networks</td>
+    </tr>
+  </ng-template>
 
-  <p-inputGroup>
-    <p-inputGroupAddon [style]="{width: '4em'}">Name</p-inputGroupAddon>
-    <input pInputText [(ngModel)]="newNetwork.displayName">
-  </p-inputGroup>
+  <ng-template pTemplate="caption">
+    <div style="display: flex; align-items: center">
+      <!--      <h2>Networks</h2>-->
+      <p-button
+        data-testid="reload-icon"
+        icon="pi pi-refresh"
+        [text]="true"
+        [rounded]="true"
+        [style]="{ 'box-shadow': 'none' }"
+        (click)="triggerReload()"
+      />
+      <div style="flex: 1"></div>
+      <p-button data-testid="create-network" (onClick)="createNetwork()">
+        Create Network
+      </p-button>
+    </div>
+  </ng-template>
 
-  <p-inputGroup>
-    <p-inputGroupAddon [style]="{width: '4em'}">Address</p-inputGroupAddon>
-    <p-inputNumber [(ngModel)]="newNetwork.address"></p-inputNumber>
-  </p-inputGroup>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>SubNet</th>
+      <th>Action</th>
+    </tr>
+  </ng-template>
 
-  <p-inputGroup>
-    <p-inputGroupAddon [style]="{width: '4em'}">SubNet</p-inputGroupAddon>
-    <p-inputNumber [(ngModel)]="newNetwork.subnet"></p-inputNumber>
-  </p-inputGroup>
+  <ng-template pTemplate="body" [templateType]="networks$" let-network>
+    <tr [attr.data-testid]="'network-' + network.id">
+      <td>
+        <p-button [link]="true" [routerLink]="['..', 'network', network.id]">
+          {{ network.displayName }}
+        </p-button>
+      </td>
+      <td>{{ network.address | ipAddress }}</td>
+      <td>{{ network.subnet | ipAddress }}</td>
+      <td>
+        <p-button
+          data-testid="delete-network"
+          [icon]="PrimeIcons.TIMES"
+          severity="danger"
+          [text]="true"
+          [rounded]="true"
+          (click)="deleteNetwork(network.id!)"
+        />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
 
-  <p-button (click)="createNetwork()">Create</p-button>
-</div>
-
-<div style="background: lightblue; padding:1em;">
-  <div style="display:flex; align-items:center">
-    <h2>Networks</h2>
-    <p-button
-      icon="pi pi-refresh"
-      [text]="true"
-      [rounded]="true"
-      [style]="{'box-shadow':'none'}"
-      (click)="triggerReload()"
-    />
-  </div>
-  <p-table dataKey="id" [value]="(networks|async)!" [loading]="isLoadingNetworks">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Address</th>
-        <th>SubNet</th>
-        <th>Action</th>
-      </tr>
-    </ng-template>
-
-    <ng-template pTemplate="body" [templateType]="networks" let-network>
-      <tr>
-        <td>{{ network.id }}</td>
-        <td>
-          <p-button [link]="true" [routerLink]="['..', 'network', network.id]">
-            {{ network.displayName }}
-          </p-button>
-        </td>
-        <td>{{ network.address }}</td>
-        <td>{{ network.subnet }}</td>
-        <td>
-          <p-button
-            icon="pi pi-times"
-            severity="danger"
-            [text]="true"
-            [rounded]="true"
-            (click)="deleteNetwork(network.id!)"
-          />
-        </td>
-
-      </tr>
-    </ng-template>
-  </p-table>
-
-  <div *ngIf="loadingNetworksError"
-       style="background: indianred; padding: .5em; display: flex; justify-content: center">
-    {{ loadingNetworksError }}
-  </div>
-
+<div *ngIf="errorMessage" data-testid="error-message" class="error-message">
+  {{ errorMessage }}
 </div>
