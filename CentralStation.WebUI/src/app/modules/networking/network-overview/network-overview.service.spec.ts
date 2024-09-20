@@ -270,10 +270,11 @@ describe('NetworkOverviewService', () => {
 
     it('should NOT show success-toast when deletion fails', () => {
       confirmation.confirm.and.callFake((args) => args.accept?.());
-      proxy.deleteNetwork.and.returnValue(throwError(() => new Error()));
+      proxy.deleteNetwork.and.returnValue(throwError(() => new Error('Test-Error')));
 
       service.deleteNetwork(7);
 
+      expect(proxy.deleteNetwork).toHaveBeenCalled();
       expect(messages.add).not.toHaveBeenCalledWith(
         jasmine.objectContaining<Message>({ severity: 'success' }),
       );

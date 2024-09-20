@@ -98,7 +98,7 @@ export class NetworkOverviewService {
           .deleteNetwork(id)
           .pipe(
             catchError((error) => {
-              console.error(error);
+              console.error('Deletion failed', error);
               this.messages.add({
                 summary: 'Deletion failed',
                 detail: 'Failed to delete network',
