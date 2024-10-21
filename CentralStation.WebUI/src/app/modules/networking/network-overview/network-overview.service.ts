@@ -16,6 +16,7 @@ import {
 } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { NetworkEditFormComponent } from '../network-edit-form/network-edit-form.component';
+import {EditModalFooterComponent} from "../../_shared/edit-modal-footer/edit-modal-footer.component";
 
 @Injectable()
 export class NetworkOverviewService {
@@ -56,7 +57,12 @@ export class NetworkOverviewService {
   }
 
   createNetwork() {
-    const ref = this.dialogs.open(NetworkEditFormComponent, {});
+    const ref = this.dialogs.open(NetworkEditFormComponent, {
+      header: 'New Network',
+      templates: {
+        footer: EditModalFooterComponent,
+      }
+    });
 
     ref.onClose.pipe(filter((result) => !!result)).subscribe((result) => {
       this.proxy

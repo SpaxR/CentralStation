@@ -1,4 +1,9 @@
-import { fakeAsync, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 
 import { NetworkOverviewService } from './network-overview.service';
 import {
@@ -16,11 +21,25 @@ import {
   PaginationOptions,
 } from '../../../shared/service-proxies/service-proxies';
 import { EMPTY, of, Subject, throwError } from 'rxjs';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import {
+  DialogService,
+  DynamicDialogConfig,
+  DynamicDialogRef,
+  DynamicDialogTemplates,
+} from 'primeng/dynamicdialog';
 import { NetworkEditFormComponent } from '../network-edit-form/network-edit-form.component';
 import { switchError } from '../../../shared/utils/operators';
+import { DebugElement } from '../../../../../tests/helpers';
+import { Button } from 'primeng/button';
+import { Component } from '@angular/core';
+import { TestModule } from '../../../../../tests/test.module';
+import { EditModalFooterComponent } from '../../_shared/edit-modal-footer/edit-modal-footer.component';
+
+@Component({ template: '' })
+export class DialogTestComponent {}
 
 describe('NetworkOverviewService', () => {
+  let fixture: ComponentFixture<DialogTestComponent>;
   let service: NetworkOverviewService;
 
   let proxy: jasmine.SpyObj<NetworkProxy>;
@@ -42,6 +61,8 @@ describe('NetworkOverviewService', () => {
     confirmation = jasmine.createSpyObj(['confirm']);
 
     TestBed.configureTestingModule({
+      declarations: [DialogTestComponent],
+      imports: [TestModule],
       providers: [
         NetworkOverviewService,
         { provide: NetworkProxy, useValue: proxy },
@@ -50,6 +71,8 @@ describe('NetworkOverviewService', () => {
         { provide: ConfirmationService, useValue: confirmation },
       ],
     });
+
+    fixture = TestBed.createComponent(DialogTestComponent);
     service = TestBed.inject(NetworkOverviewService);
   });
 
@@ -225,6 +248,30 @@ describe('NetworkOverviewService', () => {
         }),
       );
     });
+
+    it('should create dialog with header', () => {
+      service.createNetwork();
+
+      expect(dialogs.open).toHaveBeenCalledWith(
+        jasmine.anything(),
+        jasmine.objectContaining<DynamicDialogConfig>({
+          header: 'New Network',
+        }),
+      );
+    });
+
+    it('should create dialog with footer', () => {
+      service.createNetwork();
+
+      expect(dialogs.open).toHaveBeenCalledWith(
+        jasmine.anything(),
+        jasmine.objectContaining<DynamicDialogConfig>({
+          templates: jasmine.objectContaining<DynamicDialogTemplates>({
+            footer: EditModalFooterComponent,
+          }),
+        }),
+      );
+    });
   });
 
   describe('deleteNetwork', () => {
@@ -270,7 +317,9 @@ describe('NetworkOverviewService', () => {
 
     it('should NOT show success-toast when deletion fails', () => {
       confirmation.confirm.and.callFake((args) => args.accept?.());
-      proxy.deleteNetwork.and.returnValue(throwError(() => new Error('Test-Error')));
+      proxy.deleteNetwork.and.returnValue(
+        throwError(() => new Error('Test-Error')),
+      );
 
       service.deleteNetwork(7);
 
