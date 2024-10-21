@@ -5,12 +5,16 @@
 
 <p-inputGroup>
   <p-inputGroupAddon>Address</p-inputGroupAddon>
-  <app-network-input [(address)]="network.address"></app-network-input>
+  <app-network-input
+    data-testid="address-input"
+    [(address)]="network.address"
+  ></app-network-input>
 </p-inputGroup>
 
 <p-inputGroup>
   <p-inputGroupAddon>SubNet</p-inputGroupAddon>
-  <app-network-input [(address)]="network.subnet"></app-network-input>
+  <app-network-input
+    data-testid="subnet-input"
+    [(address)]="network.subnet"
+  ></app-network-input>
 </p-inputGroup>
-
-<!--<p-button (click)="createNetwork()">Create/Save</p-button>-->

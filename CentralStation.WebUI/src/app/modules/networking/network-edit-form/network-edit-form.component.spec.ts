@@ -39,7 +39,7 @@ describe('NetworkEditFormComponent', () => {
   it('should update network when address changes', () => {
     const address = Utils.IpAddressToNumber([7, 7, 7, 7]);
     const input = <NetworkInputComponent>(
-      fixture.debugElement.queryAll(By.css('app-network-input'))[0]
+      fixture.debugElement.query(By.css('[data-testid=address-input]'))
         .componentInstance
     );
 
@@ -51,7 +51,7 @@ describe('NetworkEditFormComponent', () => {
   it('should update network when subnet changes', () => {
     const subnet = Utils.IpAddressToNumber([42, 42, 42, 42]);
     const input = <NetworkInputComponent>(
-      fixture.debugElement.queryAll(By.css('app-network-input'))[1]
+      fixture.debugElement.query(By.css('[data-testid=subnet-input]'))
         .componentInstance
     );
 
