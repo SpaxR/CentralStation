@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
-import { ServiceProxiesModule } from '../../../shared/service-proxies/service-proxies.module';
 import { NetworkDeviceOverviewComponent } from './network-device-overview.component';
+import {TestModule} from "../../../../../tests/test.module";
 
 describe('NetworkDeviceOverviewComponent', () => {
   let component: NetworkDeviceOverviewComponent;
@@ -13,8 +13,8 @@ describe('NetworkDeviceOverviewComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         NetworkDeviceOverviewComponent,
-        ServiceProxiesModule,
         RouterModule.forRoot([]),
+        TestModule
       ],
       providers: [MessageService],
     }).compileComponents();
