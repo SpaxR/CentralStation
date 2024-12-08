@@ -15,7 +15,8 @@ public class CentralStationControllerProvider : IApplicationFeatureProvider<Cont
 
             var serviceTypes = assembly.Types
                 .Where(type => type.IsAssignableTo(typeof(IApplicationService)))
-                .Where(type => type is { IsClass: true, IsAbstract: false });
+                .Where(type => type is { IsClass: true, IsAbstract: false })
+                .Except(feature.Controllers);
 
             foreach (var serviceType in serviceTypes)
             {
