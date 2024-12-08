@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {Button} from "primeng/button";
+import { Button } from 'primeng/button';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-edit-modal-footer',
@@ -9,4 +10,6 @@ import {Button} from "primeng/button";
   styleUrl: './edit-modal-footer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditModalFooterComponent {}
+export class EditModalFooterComponent {
+  constructor(protected dialog: DynamicDialogRef) {}
+}

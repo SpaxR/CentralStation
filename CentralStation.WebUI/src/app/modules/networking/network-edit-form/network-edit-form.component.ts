@@ -11,7 +11,6 @@ import { NetworkDto } from '../../../shared/service-proxies/service-proxies';
   selector: 'app-network-edit-form',
   standalone: true,
   imports: [
-    Button,
     InputGroupAddonModule,
     InputGroupModule,
     InputTextModule,

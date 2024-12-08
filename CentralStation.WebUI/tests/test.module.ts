@@ -12,7 +12,6 @@ import {NoopAnimationsModule} from "@angular/platform-browser/animations";
     provideProxies(),
     provideHttpClient(),
     provideHttpClientTesting(),
-
   ],
 })
 export class TestModule {}

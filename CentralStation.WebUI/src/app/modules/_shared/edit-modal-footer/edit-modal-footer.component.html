@@ -1,2 +1,6 @@
-<p-button>Cancel</p-button>
-<p-button>Save</p-button>
+<p-button data-testid="cancel-button" (onClick)="dialog.close(undefined)">
+  Cancel
+</p-button>
+<p-button data-testid="save-button" (onClick)="dialog.close(true)">
+  Save
+</p-button>

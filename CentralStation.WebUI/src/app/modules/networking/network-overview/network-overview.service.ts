@@ -13,10 +13,12 @@ import {
   filter,
   finalize,
   ReplaySubject,
+  switchMap,
+  withLatestFrom,
 } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { NetworkEditFormComponent } from '../network-edit-form/network-edit-form.component';
-import {EditModalFooterComponent} from "../../_shared/edit-modal-footer/edit-modal-footer.component";
+import { EditModalFooterComponent } from '../../_shared/edit-modal-footer/edit-modal-footer.component';
 
 @Injectable()
 export class NetworkOverviewService {
@@ -56,36 +58,39 @@ export class NetworkOverviewService {
       .subscribe((networks) => this.networks.next(networks));
   }
 
-  createNetwork() {
+  createNetwork(network?: NetworkDto) {
     const ref = this.dialogs.open(NetworkEditFormComponent, {
       header: 'New Network',
-      templates: {
-        footer: EditModalFooterComponent,
-      }
+      templates: { footer: EditModalFooterComponent },
+      data: { network },
     });
 
-    ref.onClose.pipe(filter((result) => !!result)).subscribe((result) => {
-      this.proxy
-        .createNetwork(result)
-        .pipe(
-          catchError((error) => {
-            console.error(error);
-            this.messages.add({
-              summary: 'Creation failed',
-              detail: 'Failed to create Network',
-              severity: 'error',
-            });
-            return EMPTY;
-          }),
-        )
-        .subscribe(() => {
-          this.messages.add({
-            summary: 'Network created',
-            detail: 'Network successfully created',
-            severity: 'success',
-          });
+    ref.onClose
+      .pipe(
+        filter((result) => !!result),
+        withLatestFrom(ref.onChildComponentLoaded),
+        switchMap(([, component]) => {
+          return this.proxy.createNetwork(component.network).pipe(
+            catchError((error) => {
+              console.error(error);
+              this.messages.add({
+                summary: 'Creation failed',
+                detail: 'Failed to create Network',
+                severity: 'error',
+              });
+              this.createNetwork(component.network);
+              return EMPTY;
+            }),
+          );
+        }),
+      )
+      .subscribe(() => {
+        this.messages.add({
+          summary: 'Network created',
+          detail: 'Network successfully created',
+          severity: 'success',
         });
-    });
+      });
 
     //   this.proxy.createNetwork(this.newNetwork)
     //     .pipe(
