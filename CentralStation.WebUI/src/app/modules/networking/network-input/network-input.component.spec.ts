@@ -1,131 +1,96 @@
-// import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
-// import { By } from '@angular/platform-browser';
-// import { InputNumber } from 'primeng/inputnumber';
-
 import { NetworkInputComponent } from './network-input.component';
-import {render} from "@testing-library/angular";
-// import { Utils } from '../utils';
+import { render, RenderResult, screen } from '@testing-library/angular';
+import { userEvent, UserEvent } from '@testing-library/user-event';
+import { Utils } from '../utils';
 
 describe('NetworkInputComponent', () => {
-//   let component: NetworkInputComponent;
-//   let fixture: ComponentFixture<NetworkInputComponent>;
-//
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       imports: [NetworkInputComponent],
-//     }).compileComponents();
-//
-//     fixture = TestBed.createComponent(NetworkInputComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  let component: RenderResult<NetworkInputComponent>;
+  let user: UserEvent;
+  let addressChange: jest.Mock;
 
-  it('should create', () => {
-    const component = render(NetworkInputComponent);
-    expect(component).toBeTruthy();
+  beforeEach(async () => {
+    addressChange = jest.fn();
+    user = userEvent.setup();
+    component = await render(NetworkInputComponent, {
+      on: { addressChange },
+    });
   });
 
-//   it('should render input fields for each part', () => {
-//     const inputElements = fixture.debugElement.queryAll(By.css('input'));
-//     expect(inputElements.length).toBe(4);
-//   });
-//
-//   it('should render dots in between inputs', () => {
-//     const inputElements = fixture.debugElement.queryAll(
-//       By.css('p-inputnumber, p-inputgroupaddon'),
-//     );
-//
-//     expect(inputElements.length).toBe(7);
-//     expect(inputElements[0].nativeElement.textContent).toBe('');
-//     expect(inputElements[1].nativeElement.textContent).toBe('.');
-//     expect(inputElements[2].nativeElement.textContent).toBe('');
-//     expect(inputElements[3].nativeElement.textContent).toBe('.');
-//     expect(inputElements[4].nativeElement.textContent).toBe('');
-//     expect(inputElements[5].nativeElement.textContent).toBe('.');
-//     expect(inputElements[6].nativeElement.textContent).toBe('');
-//   });
-//
-//   // Calls onFocus function when an input field is focused
-//   it('should call select all text when field is focused', () => {
-//     const inputElement = fixture.debugElement.query(By.css('input'));
-//     const nativeInputElement = inputElement.nativeElement as HTMLInputElement;
-//     nativeInputElement.value = '255';
-//     fixture.detectChanges();
-//
-//     inputElement.triggerEventHandler('focus', {
-//       target: inputElement.nativeElement,
-//     });
-//
-//     expect(nativeInputElement.selectionStart).toBe(0);
-//     expect(nativeInputElement.selectionEnd).toBe(
-//       nativeInputElement.value.length,
-//     );
-//   });
-//
-//   [0, 1, 2, 3].forEach((index) => {
-//     let inputElement: InputNumber;
-//
-//     beforeEach(() => {
-//       inputElement = fixture.debugElement.queryAll(By.css('p-inputnumber'))[
-//         index
-//       ].componentInstance;
-//     });
-//
-//     it('should ignore input of minus-sign', () => {
-//       fillInput(inputElement, -7);
-//
-//       expect(inputElement.value).toBe(7);
-//     });
-//
-//     it('should clamp values over 255', () => {
-//       fillInput(inputElement, 256);
-//
-//       inputElement.onInputBlur(new Event('event'));
-//
-//       expect(inputElement.value).toBe(255);
-//     });
-//   });
-//
-//   it('should update address on input', fakeAsync(() => {
-//     const address = [7, 42, 1, 255]; // random
-//     spyOn(component.addressChange, 'emit');
-//
-//     const inputs = fixture.debugElement
-//       .queryAll(By.css('p-inputNumber'))
-//       .map((input) => input.componentInstance as InputNumber);
-//
-//     for (let i = 0; i < inputs.length; i++) {
-//       fillInput(inputs[i], address[i]);
-//     }
-//
-//     expect(component.addressChange.emit).toHaveBeenCalledWith(
-//       Utils.IpAddressToNumber(address),
-//     );
-//   }));
-});
+  it('should render dots in between inputs', async () => {
+    const element = (await screen.findByLabelText('address')).children[0]!;
+    expect(element.children.length).toBe(7);
 
-// function fillInput(component: InputNumber, value: number | string) {
-//   component.value = undefined;
-//
-//   let code: string;
-//
-//   switch (value) {
-//     case '-':
-//       code = 'Minus';
-//       break;
-//     default:
-//       code = 'Digit' + value;
-//       break;
-//   }
-//
-//   for (let char of value.toString()) {
-//     // noinspection JSDeprecatedSymbols
-//     component.onInputKeyPress(
-//       new KeyboardEvent('event', {
-//         code: code,
-//         key: char,
-//         keyCode: char.charCodeAt(0),
-//       }),
-//     );
-//   }
-// }
+    const [, dot1, , dot2, , dot3] = Array.from(element.children);
+
+    expect(dot1.textContent).toBe('.');
+    expect(dot2.textContent).toBe('.');
+    expect(dot3.textContent).toBe('.');
+  });
+
+  describe.each([
+    'address-part-0',
+    'address-part-1',
+    'address-part-2',
+    'address-part-3',
+  ])('Field %p', (inputLabel) => {
+    let input: HTMLInputElement;
+
+    beforeEach(() => {
+      input = screen.getByLabelText(inputLabel);
+      expect(input).toBeDefined();
+    });
+
+    // Calls onFocus function when an input field is focused
+    it('should select all text when field is focused', async () => {
+      await component.rerender({
+        inputs: {
+          address: Utils.IpAddressToNumber([255, 255, 255, 255]),
+        },
+      });
+
+      await user.click(input);
+
+      expect(input.selectionStart).toBe(0);
+      expect(input.selectionEnd).toBe(3);
+    });
+
+    it('should allow valid input', async () => {
+      await user.type(input, '42');
+
+      expect(input.value).toBe('42');
+    });
+
+    it('should insert 0 and select on first click', async () => {
+      await user.click(input);
+
+      expect(input.value).toBe('0');
+      expect(input.selectionStart).toBe(0);
+      expect(input.selectionEnd).toBe(1);
+    });
+
+    it('should ignore input of minus-sign', async () => {
+      await user.clear(input);
+      await user.type(input, '-7');
+      expect(input.value).toBe('7');
+    });
+
+    it('should clamp values over 255', async () => {
+      await user.type(input, '256');
+
+      expect(input.value).toBe('255');
+    });
+  });
+
+  it('should update address on input', async () => {
+    const address = [7, 42, 1, 255]; // random
+
+    for (let i = 0; i < address.length; i++) {
+      const input = await screen.findByLabelText('address-part-' + i);
+      await user.type(input, address[i].toString());
+    }
+
+    expect(addressChange).toHaveBeenCalledWith(
+      Utils.IpAddressToNumber(address),
+    );
+  });
+});

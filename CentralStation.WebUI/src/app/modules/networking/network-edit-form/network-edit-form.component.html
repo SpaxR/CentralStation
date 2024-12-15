@@ -1,20 +1,24 @@
 <p-inputGroup>
-  <p-inputGroupAddon>Name</p-inputGroupAddon>
-  <input pInputText [(ngModel)]="network.displayName" />
+  <p-inputGroupAddon id="name-label">Name</p-inputGroupAddon>
+  <input
+    pInputText
+    aria-labelledby="name-label"
+    [(ngModel)]="network.displayName"
+  />
 </p-inputGroup>
 
 <p-inputGroup>
-  <p-inputGroupAddon>Address</p-inputGroupAddon>
+  <p-inputGroupAddon id="address-label">Address</p-inputGroupAddon>
   <app-network-input
-    data-testid="address-input"
+    aria-labelledby="address-label"
     [(address)]="network.address"
   ></app-network-input>
 </p-inputGroup>
 
 <p-inputGroup>
-  <p-inputGroupAddon>SubNet</p-inputGroupAddon>
+  <p-inputGroupAddon id="subnet-label">SubNet</p-inputGroupAddon>
   <app-network-input
-    data-testid="subnet-input"
+    aria-labelledby="subnet-label"
     [(address)]="network.subnet"
   ></app-network-input>
 </p-inputGroup>

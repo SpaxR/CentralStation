@@ -9,7 +9,7 @@ import {
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { FormsModule } from '@angular/forms';
-import { InputNumberModule } from 'primeng/inputnumber';
+import {InputNumberInputEvent, InputNumberModule} from 'primeng/inputnumber';
 import { Utils } from '../utils';
 
 @Component({
@@ -36,7 +36,8 @@ export class NetworkInputComponent implements OnChanges {
     }
   }
 
-  protected onAddressChanged() {
+  protected onAddressChanged(index:number,event:InputNumberInputEvent) {
+    this.parts[index] = Math.min(Math.max(Number(event.value), 0), 255); // Clamp 0-255
     this.addressChange.emit(Utils.IpAddressToNumber(this.parts));
   }
 

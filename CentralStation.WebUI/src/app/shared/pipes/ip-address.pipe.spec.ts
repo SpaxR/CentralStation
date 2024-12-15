@@ -4,13 +4,7 @@ import { Utils } from '../../modules/networking/utils';
 describe('IpAddressPipe', () => {
   let pipe: IpAddressPipe;
 
-  beforeEach(() => {
-    pipe = new IpAddressPipe();
-  });
-
-  it('create an instance', () => {
-    expect(pipe).toBeTruthy();
-  });
+  beforeEach(() => (pipe = new IpAddressPipe()));
 
   it('should return string of ip-address', () => {
     const ip = Utils.IpAddressToNumber([127, 0, 0, 1]);

@@ -1,17 +1,18 @@
-<p-inputGroup>
+<p-inputGroup aria-label="address">
   @for (part of parts; track $index) {
     <p-inputNumber
+      ariaLabel="address-part-{{$index}}"
       mode="decimal"
       [useGrouping]="false"
       [min]="0"
       [max]="255"
-      [(ngModel)]="parts[$index]"
+      [ngModel]="part"
       (onFocus)="onFocus($event)"
-      (onInput)="onAddressChanged()"
+      (onInput)="onAddressChanged($index,$event)"
     />
 
     @if (!$last) {
-      <p-inputGroupAddon>.</p-inputGroupAddon>
+      <p-inputGroupAddon aria-hidden="true">.</p-inputGroupAddon>
     }
   }
 </p-inputGroup>
