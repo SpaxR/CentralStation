@@ -1,0 +1,12 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Tests" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/CentralStation.WebUI/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="test" />
+    </scripts>
+    <node-interpreter value="project" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

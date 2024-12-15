@@ -39,7 +39,7 @@ app.Configure(config =>
     config.AddCommand<RemoveMigrationCommand>("remove")
         .WithDescription("Removes the latest Migration");
 
-    config.SetExceptionHandler(exception =>
+    config.SetExceptionHandler((exception, _) =>
     {
         AnsiConsole.MarkupLineInterpolated($"[yellow]{exception.Message}[/]");
         AnsiConsole.MarkupLineInterpolated($"[grey]{exception.StackTrace}[/]");

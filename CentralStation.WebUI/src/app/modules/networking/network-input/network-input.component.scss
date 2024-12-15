@@ -1,0 +1,26 @@
+p-inputNumber {
+  min-width: 4em;
+  width: 0;
+
+  &:not(:first-child) ::ng-deep input {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+  }
+  &:not(:last-child) ::ng-deep input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+  }
+
+  ::ng-deep input {
+    text-align: center;
+  }
+}
+
+p-inputGroupAddon {
+  padding: 0;
+  min-width: 1em;
+  border-left: none;
+  border-right: none;
+}
