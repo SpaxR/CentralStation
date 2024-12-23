@@ -1,6 +1,9 @@
-﻿import { getTestBed } from '@angular/core/testing';
+﻿import { TestBed } from '@angular/core/testing';
 import { appConfig } from '../src/app/app.config';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { BrowserTestingModule } from '@angular/platform-browser/testing';
 import '@testing-library/jest-dom'; // includes jest-dom extensions
 
 // @ts-ignore
@@ -123,13 +126,10 @@ document.addEventListener('keydown', patchKeyEvent, { capture: true });
 document.addEventListener('keyup', patchKeyEvent, { capture: true });
 document.addEventListener('keypress', patchKeyEvent, { capture: true });
 
-
-beforeEach(() => {
-  getTestBed().configureTestingModule({
+beforeEach(() =>
+  TestBed.configureTestingModule({
     ...appConfig,
-    providers: [
-      ...appConfig.providers,
-      provideHttpClientTesting(),
-    ],
-  });
-});
+    imports: [BrowserModule, BrowserDynamicTestingModule, BrowserTestingModule],
+    providers: [...appConfig.providers, provideHttpClientTesting()],
+  }),
+);
