@@ -7,13 +7,16 @@ describe('EditModalFooterComponent', () => {
   let dialogRef: Partial<DynamicDialogRef>;
   let user: UserEvent;
 
-  beforeEach(async () => {
-    user = userEvent.setup();
-    dialogRef = { close: jest.fn() };
-    await render(EditModalFooterComponent, {
-      providers: [{ provide: DynamicDialogRef, useValue: dialogRef }],
-    });
-  });
+  beforeEach(() =>
+    render(EditModalFooterComponent, {
+      providers: [
+        {
+          provide: DynamicDialogRef,
+          useValue: (dialogRef = { close: jest.fn() }),
+        },
+      ],
+    }),
+  );
 
   describe('when cancel clicked', () => {
     it('should close modal with undefined', async () => {

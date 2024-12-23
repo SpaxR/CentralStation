@@ -5,10 +5,7 @@ import { userEvent, UserEvent } from '@testing-library/user-event';
 describe('NetworkEditFormComponent', () => {
   let user: UserEvent;
 
-  beforeEach(async () => {
-    user = userEvent.setup();
-    await render(NetworkEditFormComponent);
-  });
+  beforeEach(() => render(NetworkEditFormComponent));
 
   it('should update network when display-name changes', () => {
     const value = 'Test-DisplayName';

@@ -9,10 +9,8 @@ describe('NetworkInputComponent', () => {
   let addressChange: jest.Mock;
 
   beforeEach(async () => {
-    addressChange = jest.fn();
-    user = userEvent.setup();
     component = await render(NetworkInputComponent, {
-      on: { addressChange },
+      on: { addressChange: (addressChange = jest.fn()) },
     });
   });
 

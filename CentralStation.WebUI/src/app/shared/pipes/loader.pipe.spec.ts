@@ -6,9 +6,7 @@ import { environment } from '../../../environments/environment';
 describe('LoaderPipe', () => {
   let pipe: LoaderPipe;
 
-  beforeEach(() => {
-    pipe = new LoaderPipe();
-  });
+  beforeEach(() => (pipe = new LoaderPipe()));
 
   function transform(value: boolean, delay?: number): boolean | undefined {
     let result: boolean | undefined;
