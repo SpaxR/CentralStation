@@ -1,12 +1,9 @@
 ﻿import { TestBed } from '@angular/core/testing';
 import { appConfig } from '../src/app/app.config';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { BrowserTestingModule } from '@angular/platform-browser/testing';
-import '@testing-library/jest-dom';
-import {NoopAnimationsModule, provideNoopAnimations} from '@angular/platform-browser/animations';
-import {userEvent} from "@testing-library/user-event/index"; // includes jest-dom extensions
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { userEvent } from '@testing-library/user-event';
+import '@testing-library/jest-dom'; // includes jest-dom extensions
 
 // @ts-ignore
 window.MutationObserver = window[Zone.__symbol__('MutationObserver')];
@@ -131,6 +128,10 @@ document.addEventListener('keypress', patchKeyEvent, { capture: true });
 beforeEach(() => {
   userEvent.setup();
   return TestBed.configureTestingModule({
-    providers: [...appConfig.providers, provideHttpClientTesting(), provideNoopAnimations()],
+    providers: [
+      ...appConfig.providers,
+      provideHttpClientTesting(),
+      provideNoopAnimations(),
+    ],
   });
 });

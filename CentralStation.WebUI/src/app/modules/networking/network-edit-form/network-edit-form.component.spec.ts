@@ -1,17 +1,15 @@
 import { render, screen, within } from '@testing-library/angular';
 import { NetworkEditFormComponent } from './network-edit-form.component';
-import { userEvent, UserEvent } from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 
 describe('NetworkEditFormComponent', () => {
-  let user: UserEvent;
-
   beforeEach(() => render(NetworkEditFormComponent));
 
   it('should update network when display-name changes', () => {
     const value = 'Test-DisplayName';
 
     const input = screen.getByLabelText('Name');
-    user.type(input, value);
+    userEvent.type(input, value);
 
     // expect(component.network.displayName).toBe(value);
     // todo
@@ -24,7 +22,7 @@ describe('NetworkEditFormComponent', () => {
       const input = within(screen.getByLabelText('Address')).getByLabelText(
         'address-part-' + i,
       );
-      user.type(input, address[i].toString());
+      userEvent.type(input, address[i].toString());
     }
 
     // expect(component.network.address).toEqual(address);
@@ -38,7 +36,7 @@ describe('NetworkEditFormComponent', () => {
       const input = within(screen.getByLabelText('SubNet')).getByLabelText(
         'address-part-' + i,
       );
-      user.type(input, address[i].toString());
+      userEvent.type(input, address[i].toString());
     }
 
     // expect(component.network.subnet).toEqual(subnet);

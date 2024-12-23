@@ -1,11 +1,10 @@
 import { NetworkInputComponent } from './network-input.component';
 import { render, RenderResult, screen } from '@testing-library/angular';
-import { userEvent, UserEvent } from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 import { Utils } from '../utils';
 
 describe('NetworkInputComponent', () => {
   let component: RenderResult<NetworkInputComponent>;
-  let user: UserEvent;
   let addressChange: jest.Mock;
 
   beforeEach(async () => {
@@ -46,20 +45,20 @@ describe('NetworkInputComponent', () => {
         },
       });
 
-      await user.click(input);
+      await userEvent.click(input);
 
       expect(input.selectionStart).toBe(0);
       expect(input.selectionEnd).toBe(3);
     });
 
     it('should allow valid input', async () => {
-      await user.type(input, '42');
+      await userEvent.type(input, '42');
 
       expect(input.value).toBe('42');
     });
 
     it('should insert 0 and select on first click', async () => {
-      await user.click(input);
+      await userEvent.click(input);
 
       expect(input.value).toBe('0');
       expect(input.selectionStart).toBe(0);
@@ -67,13 +66,13 @@ describe('NetworkInputComponent', () => {
     });
 
     it('should ignore input of minus-sign', async () => {
-      await user.clear(input);
-      await user.type(input, '-7');
+      await userEvent.clear(input);
+      await userEvent.type(input, '-7');
       expect(input.value).toBe('7');
     });
 
     it('should clamp values over 255', async () => {
-      await user.type(input, '256');
+      await userEvent.type(input, '256');
 
       expect(input.value).toBe('255');
     });
@@ -84,7 +83,7 @@ describe('NetworkInputComponent', () => {
 
     for (let i = 0; i < address.length; i++) {
       const input = await screen.findByLabelText('address-part-' + i);
-      await user.type(input, address[i].toString());
+      await userEvent.type(input, address[i].toString());
     }
 
     expect(addressChange).toHaveBeenCalledWith(
