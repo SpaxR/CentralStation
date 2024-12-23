@@ -1,6 +1,7 @@
 ﻿import { getTestBed } from '@angular/core/testing';
 import { appConfig } from '../src/app/app.config';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import '@testing-library/jest-dom'; // includes jest-dom extensions
 
 // @ts-ignore
 window.MutationObserver = window[Zone.__symbol__('MutationObserver')];
