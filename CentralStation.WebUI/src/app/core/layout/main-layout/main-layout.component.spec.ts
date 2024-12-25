@@ -20,7 +20,7 @@ describe('MainLayoutComponent', () => {
     expect(brand).toBeTruthy();
   });
 
-  it.each(['dashboard', 'networks', 'recipes', 'pantry'])(
+  it.each(['Dashboard', 'Networks', 'Recipes', 'Pantry'])(
     'should display %p in navigation',
     async (title) => {
       await render(MainLayoutComponent);
