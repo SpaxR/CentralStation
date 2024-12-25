@@ -1,0 +1,60 @@
+diff --git a/node_modules/happy-dom/cjs/dom-parser/DOMParser.cjs b/node_modules/happy-dom/cjs/dom-parser/DOMParser.cjs
+index da5aaf3..2512cfb 100644
+--- a/node_modules/happy-dom/cjs/dom-parser/DOMParser.cjs
++++ b/node_modules/happy-dom/cjs/dom-parser/DOMParser.cjs
+@@ -55,12 +55,15 @@ class DOMParser {
+         const root = XMLParser_js_1.default.parse(newDocument, string, { evaluateScripts: true });
+         let documentElement = null;
+         let documentTypeNode = null;
++        let bodyElement = null;
+         for (const node of root[PropertySymbol.nodeArray]) {
+             if (node['tagName'] === 'HTML') {
+                 documentElement = node;
+             }
+             else if (node[PropertySymbol.nodeType] === NodeTypeEnum_js_1.default.documentTypeNode) {
+                 documentTypeNode = node;
++            } else if (node['tagName'] === 'BODY') {
++                bodyElement = node;
+             }
+             if (documentElement && documentTypeNode) {
+                 break;
+@@ -91,7 +94,7 @@ class DOMParser {
+                 default:
+                     {
+                         const documentElement = newDocument.createElement('html');
+-                        const bodyElement = newDocument.createElement('body');
++                        bodyElement = bodyElement ?? newDocument.createElement('body');
+                         const headElement = newDocument.createElement('head');
+                         documentElement.appendChild(headElement);
+                         documentElement.appendChild(bodyElement);
+diff --git a/node_modules/happy-dom/lib/dom-parser/DOMParser.js b/node_modules/happy-dom/lib/dom-parser/DOMParser.js
+index cf62502..529d7cf 100644
+--- a/node_modules/happy-dom/lib/dom-parser/DOMParser.js
++++ b/node_modules/happy-dom/lib/dom-parser/DOMParser.js
+@@ -27,13 +27,16 @@ export default class DOMParser {
+         const root = XMLParser.parse(newDocument, string, { evaluateScripts: true });
+         let documentElement = null;
+         let documentTypeNode = null;
++        let bodyElement = null;
+         for (const node of root[PropertySymbol.nodeArray]) {
+             if (node['tagName'] === 'HTML') {
+                 documentElement = node;
+             }
+             else if (node[PropertySymbol.nodeType] === NodeTypeEnum.documentTypeNode) {
+                 documentTypeNode = node;
+-            }
++            } else if (node['tagName'] === 'BODY') {
++				bodyElement = node;
++			}
+             if (documentElement && documentTypeNode) {
+                 break;
+             }
+@@ -63,7 +66,7 @@ export default class DOMParser {
+                 default:
+                     {
+                         const documentElement = newDocument.createElement('html');
+-                        const bodyElement = newDocument.createElement('body');
++						bodyElement = bodyElement ?? newDocument.createElement('body');
+                         const headElement = newDocument.createElement('head');
+                         documentElement.appendChild(headElement);
+                         documentElement.appendChild(bodyElement);
