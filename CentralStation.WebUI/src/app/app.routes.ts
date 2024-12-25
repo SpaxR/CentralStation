@@ -1,16 +1,33 @@
-import {Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'networking',
-    loadComponent: () =>
-      import('./modules/networking/network-overview/network-overview.component')
-        .then(component => component.NetworkOverviewComponent)
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./modules/dashboard/dashboard.routes').then((r) => r.routes),
   },
   {
-    path: 'network/:network-id',
-    loadComponent: () =>
-      import('./modules/networking/network-device-overview/network-device-overview.component')
-        .then(component => component.NetworkDeviceOverviewComponent)
-  }
+    path: 'networking',
+    loadChildren: () =>
+      import('./modules/networking/networking.routes').then((r) => r.routes),
+  },
+  {
+    path: 'kitchen',
+    loadChildren: () =>
+      import('./modules/kitchen/kitchen.routes').then((r) => r.routes),
+  },
+  {
+    path: 'pantry',
+    loadChildren: () =>
+      import('./modules/pantry/pantry.routes').then((r) => r.routes),
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'dashboard',
+  },
+  {
+    path: '**',
+    redirectTo: 'dashboard',
+  },
 ];
