@@ -12,9 +12,9 @@ import { MenuItem } from 'primeng/api';
 })
 export class MainLayoutComponent {
   menu: MenuItem[] = [
-    { label: 'Dashboard' },
-    { label: 'Networks' },
-    { label: 'Recipes' },
-    { label: 'Pantry' },
+    { label: 'Dashboard', routerLink: '/' },
+    { label: 'Networking', routerLink: '/networking' },
+    { label: 'Kitchen', routerLink: '/cooking' },
+    { label: 'Pantry', routerLink: '/pantry' },
   ];
 }

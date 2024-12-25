@@ -1,5 +1,6 @@
 ﻿import { MainLayoutComponent } from './main-layout.component';
 import { render, screen, within } from '@testing-library/angular';
+import { By } from '@angular/platform-browser';
 
 describe('MainLayoutComponent', () => {
   it('should display content', async () => {
@@ -12,23 +13,34 @@ describe('MainLayoutComponent', () => {
     expect(content).toBeTruthy();
   });
 
-  it('should display brand', async () => {
-    await render(MainLayoutComponent);
+  it('should display brand in menubar', async () => {
+    const component = await render(MainLayoutComponent);
+    const menuStart = component.debugElement.query(By.css('.p-menubar-start'));
 
-    const brand = await screen.findByText('CentralStation');
+    const brand = await within(menuStart.nativeElement).findByText(
+      'CentralStation',
+    );
 
     expect(brand).toBeTruthy();
   });
 
-  it.each(['Dashboard', 'Networks', 'Recipes', 'Pantry'])(
-    'should display %p in navigation',
-    async (title) => {
-      await render(MainLayoutComponent);
+  it.each([
+    { title: 'Dashboard', link: '/' },
+    { title: 'Networking', link: '/networking' },
+    { title: 'Kitchen', link: '/cooking' },
+    { title: 'Pantry', link: '/pantry' },
+  ])('should have $title in navigation', async (item) => {
+    await render(MainLayoutComponent);
 
-      const menubar = await screen.findByRole('menubar');
-      const menuItem = await within(menubar).findByLabelText(title);
+    const menubar = await screen.findByRole('menubar');
+    const menuItem = await within(menubar).findByLabelText(item.title);
+    expect(menuItem).toBeVisible();
 
-      expect(menuItem).toBeVisible();
-    },
-  );
+    const link = menuItem.querySelector('a');
+    expect(link).toBeVisible();
+    expect(link!.href).toBeTruthy();
+
+    const url = new URL(link!.href);
+    expect(url.pathname).toBe(item.link);
+  });
 });
